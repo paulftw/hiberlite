@@ -1,0 +1,11 @@
+website : http://code.google.com/p/hiberlite/
+
+C++ to sqlite ORM by Pavlo Korzhyk
+
+USAGE: just compile and link all files under src/ to
+your project.
+Add 
+	#include "hiberlite.h" 
+to your code.
+
+
