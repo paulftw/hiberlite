@@ -7,7 +7,7 @@ C++ object-relational mapping with API inspired by the awesome Boost.Serializati
 Just compile and link all files under src/ to your project.
 Include the main header:
 
-```c++
+```cpp
 #include "hiberlite.h" 
 ```
 
@@ -46,21 +46,21 @@ Hiberlite greatly reduces the implementation of each of these tasks.
 
 Opening a database is as simple as
        
-``` c++
+```cpp
 hiberlite::Database db;
 db.open("sample.db");
 ```
 
 Where
 
-``` c++
+```cpp
 Database::open(std::string filename)
 ```
 
 opens a sqlite3 file. If it doesn't exist it will be created.
 Another option is to have constructor automatically open/create the DB file:
 
-``` c++
+```cpp
 hiberlite::Database db("sample.db");
 ```
 
@@ -76,7 +76,7 @@ And hiberlite will figure out how to store that data.
 First You must prepare the data classes for use with hiberlite.
 Suppose we develop a social-network application. We define a person class as:
 
-``` c++
+```cpp
 class Person{
 public:
         string name;
@@ -88,7 +88,7 @@ public:
 Now, to let hiberlite know about the internal structure of this class,
 we add an access method and an export declaration:
 
-``` c++
+```cpp
 class Person{
     friend class hiberlite::access;
     template<class Archive>
@@ -119,13 +119,13 @@ A programmer defines that set of classes, and hiberlite determines the needed ta
 
 Each instance of Database maintains its own copy of the database schema (set of data classes). To insert a new class to that set, use registerBeanClass template method:
 
-``` c++
+```cpp
 db.registerBeanClass<Person>();
 ```
 
 In most applications several classes are stored in one database - so usually You will call **registerBeanClass** several times:
 
-``` c++
+```cpp
 Database db("gmail2.0.db");
 db.registerBeanClass<UserAccount>();
 db.registerBeanClass<Letter>();
@@ -134,7 +134,7 @@ db.registerBeanClass<Attachment>();
 
 When the classes are registered, Database can create tables to map them:
 
-``` c++
+```cpp
 db.dropModel();
 db.createModel();
 ```
@@ -148,7 +148,7 @@ before calling createModel().
 
 When the database with proper chema is opened, we can put some Person objects in it:
 
-``` c++
+```cpp
 Person x;
 x.name="Amanda";
 x.age=21;
@@ -170,7 +170,7 @@ with **sqlid_t bean_ptr::get_id()**.
 
 Another way to create a bean is to use **createBean()** template method:
 
-``` c++
+```cpp
 hiberlite::bean_ptr<Person> p=db.createBean<Person>();
 p->name="Amanda";
 p->age=21;
@@ -184,7 +184,7 @@ There are several methods to query the database:
 
 **bean_ptr<C> Database::loadBean(sqlid_t id)** loads the bean with the given id.
 
-``` c++
+```cpp
 bean_ptr<Person> p=db.loadBean<Person>(1);
 cout << "first person is " << p->name << endl;
 ```
@@ -196,7 +196,7 @@ In this example Person will be loaded later, when we try to access the name fiel
 **std::vector< bean_ptr<C> > Database::getAllBeans()**
 returns a vector with all the beans of a given class C.
 
-``` c++
+```cpp
 vector< bean_ptr<Person> > v=db.getAllBeans<Person>();
 cout << "found " << v.size() << " persons in the database\n";
 ```
@@ -209,7 +209,7 @@ You can load the same object more than once - all the returned bean_ptr's will p
 
 To remove an object from the database, call bean_ptr::destroy():
 
-``` c++
+```cpp
 bean_ptr<Person> p==db.loadBean<Person>(1);
 p.destroy();
 ```
@@ -221,7 +221,7 @@ All the above code is put together in sample.cpp. For more demonstration see the
 User-defined class
 First we define the class we plan to store in the database:
 
-``` c++
+```cpp
 class MyClass{
     friend class hiberlite::access;
     template<class Archive>
@@ -250,7 +250,7 @@ for hiberlite to access the internal structure of the user-defined class.
 
 hiberlite will use 2 tables to represent MyClass instances in the database:
 
-``` c++
+```cpp
 CREATE TABLE MyClass 
 (
     a INTEGER,
@@ -274,7 +274,7 @@ MyClass_vs_items table is the "subtable" of MyClass. It is used to store element
 
 Objects in the database are called beans. To add a new bean to the database we call
 
-``` c++
+```cpp
 hiberlite::bean_ptr<MyClass> p=db.copyBean(x);
 ```
 
@@ -294,7 +294,7 @@ You must not call **delete ptr;** after calling **manageBean(ptr)** - **bean_ptr
 
 Call to 
 
-``` c++
+```cpp
 std::vector< hiberlite::bean_ptr<MyClass> > v=db.getAllBeans<MyClass>();
 ```
 
