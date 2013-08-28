@@ -89,7 +89,7 @@ HIBERLITE_STRINGIFY_UNSIGNED_NUM(unsigned long long int)
 
 		static std::string toSQLiteValue(const char* val){
 			int n=strlen(val);
-			char s[4+2*n];
+			char* s=new char[4+2*n];
 			int x=sprintf(s,"X'");
 
 			for(int i=0;i<n;i++){
@@ -97,7 +97,9 @@ HIBERLITE_STRINGIFY_UNSIGNED_NUM(unsigned long long int)
 				x+=sprintf(s+x,"%02X", (int)cc);
 			}
 			sprintf(s+x,"'");
-			return s;
+			std::string res(s);
+			delete[] s;
+			return res;
 		}
 
 		static std::string toSQLiteValue(const std::string val){
