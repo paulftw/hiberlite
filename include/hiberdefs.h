@@ -1,7 +1,12 @@
 #ifndef HIBERDEFS_H_INCLUDED
 #define HIBERDEFS_H_INCLUDED
 
-#define HIBERLITE_NVP(Field) hiberlite::sql_nvp< typeof(Field) >(#Field,Field)
+#if (defined _MSC_VER && _MSC_VER< 1600)
+#include <boost/typeof/typeof.hpp>
+#define HIBERLITE_NVP(Field) hiberlite::sql_nvp< BOOST_TYPEOF(Field) >(#Field,Field)
+#else
+#define HIBERLITE_NVP(Field) hiberlite::sql_nvp< decltype(Field) >(#Field,Field)
+#endif
 #define HIBERLITE_BASE_CLASS(ClName) hiberlite::sql_nvp< ClName >(#ClName,*((ClName*)this) )
 
 #define HIBERLITE_EXPORT_CLASS(ClName) 			\
