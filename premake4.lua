@@ -32,6 +32,7 @@ function CompilerSpecificFlags()
 			"_CRT_NONSTDC_NO_DEPRECATE"
 		}
 	configuration {"gmake"}
+		buildoptions { "-v -std=c++11 -fPIC" }
 end
 
 function CompilerSpecificPostBuildEvent()
@@ -40,7 +41,6 @@ function CompilerSpecificPostBuildEvent()
 
 	configuration {"gmake"}
 		postbuildcommands  { "$(TARGET)" }
-		buildoptions { "-v -std=gnu++0x -fPIC" }
 
 	configuration {"codeblocks" }
 		postbuildcommands { "$(TARGET_OUTPUT_FILE)"}
@@ -90,45 +90,26 @@ local sln=solution "hiberlite"
 		}
 
 ----------------------------------------------------------------------------------------------------------------
-   local hiberlite_test=project "hiberlite_test"
+
+local make_console_project=function(name,input_files,post_build_event)
+		project(name)
 		kind "ConsoleApp"
 		DefaultConfig()
 		CompilerSpecificFlags()
-		language "C++"
-		files {
-			"tests.cpp"
-		}
-
-----------------------------------------------------------------------------------------------------------------
-
-local function ConsoleApp(name,file_list,postbuild_event)
-   local hiberlite_test=project(name)
-   location "Build"
-		kind "ConsoleApp"
-		DefaultConfig()
-		CompilerSpecificFlags()
-		
-		if type(postbuild_event)=="function" then
-			postbuild_event()
+		if type(post_build_event)=="function" then
+			post_build_event()
 		end
-		
 		language "C++"
-		
-		files (file_list)
-		
+		files ( input_files )
 		links {
-			"sqlite",
-			"hiberlite"
+			"hiberlite",
+			"sqlite"
 		}
-		
 		configuration "linux"
-			links { }
-		configuration "windows"
-			links { }
+			links { "dl" , "pthread" }			
 end
-
 ----------------------------------------------------------------------------------------------------------------
 
-ConsoleApp("hiberlite_test",{ "./tests.cpp" },CompilerSpecificPostBuildEvent)
-ConsoleApp("catch_test",{ "./catch_tests.cpp" },CompilerSpecificPostBuildEvent)
-ConsoleApp("sample",{ "./sample.cpp" })
+make_console_project("sample",{ "./sample.cpp" },CompilerSpecificPostBuildEvent)
+make_console_project("catch_test",{ "./catch_tests.cpp" },CompilerSpecificPostBuildEvent)
+make_console_project("hiberlite_test",{ "./tests.cpp" },CompilerSpecificPostBuildEvent)

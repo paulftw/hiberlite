@@ -34,12 +34,12 @@ ifeq ($(config),debug)
   DEFINES   += -DDEBUG -D_DEBUG
   INCLUDES  += -I../include -I../sqlite-amalgamation -I../Catch/single_include
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
-  CFLAGS    += $(CPPFLAGS) $(ARCH) -g
+  CFLAGS    += $(CPPFLAGS) $(ARCH) -g -v -std=c++11 -fPIC
   CXXFLAGS  += $(CFLAGS) 
   LDFLAGS   += -L..
   RESFLAGS  += $(DEFINES) $(INCLUDES) 
-  LIBS      += ../libsqlite.a ../libhiberlite.a
-  LDDEPS    += ../libsqlite.a ../libhiberlite.a
+  LIBS      += ../libhiberlite.a ../libsqlite.a -ldl -lpthread
+  LDDEPS    += ../libhiberlite.a ../libsqlite.a
   LINKCMD    = $(CXX) -o $(TARGET) $(OBJECTS) $(RESOURCES) $(ARCH) $(LIBS) $(LDFLAGS)
   define PREBUILDCMDS
   endef
@@ -56,12 +56,12 @@ ifeq ($(config),release)
   DEFINES   += -DRELEASE
   INCLUDES  += -I../include -I../sqlite-amalgamation -I../Catch/single_include
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
-  CFLAGS    += $(CPPFLAGS) $(ARCH) -O2
+  CFLAGS    += $(CPPFLAGS) $(ARCH) -O2 -v -std=c++11 -fPIC
   CXXFLAGS  += $(CFLAGS) 
   LDFLAGS   += -L.. -s
   RESFLAGS  += $(DEFINES) $(INCLUDES) 
-  LIBS      += ../libsqlite.a ../libhiberlite.a
-  LDDEPS    += ../libsqlite.a ../libhiberlite.a
+  LIBS      += ../libhiberlite.a ../libsqlite.a -ldl -lpthread
+  LDDEPS    += ../libhiberlite.a ../libsqlite.a
   LINKCMD    = $(CXX) -o $(TARGET) $(OBJECTS) $(RESOURCES) $(ARCH) $(LIBS) $(LDFLAGS)
   define PREBUILDCMDS
   endef
@@ -78,12 +78,12 @@ ifeq ($(config),debug32)
   DEFINES   += -DDEBUG -D_DEBUG
   INCLUDES  += -I../include -I../sqlite-amalgamation -I../Catch/single_include
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
-  CFLAGS    += $(CPPFLAGS) $(ARCH) -g -m32
+  CFLAGS    += $(CPPFLAGS) $(ARCH) -g -m32 -v -std=c++11 -fPIC
   CXXFLAGS  += $(CFLAGS) 
   LDFLAGS   += -L.. -m32 -L/usr/lib32
   RESFLAGS  += $(DEFINES) $(INCLUDES) 
-  LIBS      += ../libsqlite.a ../libhiberlite.a
-  LDDEPS    += ../libsqlite.a ../libhiberlite.a
+  LIBS      += ../libhiberlite.a ../libsqlite.a -ldl -lpthread
+  LDDEPS    += ../libhiberlite.a ../libsqlite.a
   LINKCMD    = $(CXX) -o $(TARGET) $(OBJECTS) $(RESOURCES) $(ARCH) $(LIBS) $(LDFLAGS)
   define PREBUILDCMDS
   endef
@@ -100,12 +100,12 @@ ifeq ($(config),release32)
   DEFINES   += -DRELEASE
   INCLUDES  += -I../include -I../sqlite-amalgamation -I../Catch/single_include
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
-  CFLAGS    += $(CPPFLAGS) $(ARCH) -O2 -m32
+  CFLAGS    += $(CPPFLAGS) $(ARCH) -O2 -m32 -v -std=c++11 -fPIC
   CXXFLAGS  += $(CFLAGS) 
   LDFLAGS   += -L.. -s -m32 -L/usr/lib32
   RESFLAGS  += $(DEFINES) $(INCLUDES) 
-  LIBS      += ../libsqlite.a ../libhiberlite.a
-  LDDEPS    += ../libsqlite.a ../libhiberlite.a
+  LIBS      += ../libhiberlite.a ../libsqlite.a -ldl -lpthread
+  LDDEPS    += ../libhiberlite.a ../libsqlite.a
   LINKCMD    = $(CXX) -o $(TARGET) $(OBJECTS) $(RESOURCES) $(ARCH) $(LIBS) $(LDFLAGS)
   define PREBUILDCMDS
   endef
@@ -122,12 +122,12 @@ ifeq ($(config),debug64)
   DEFINES   += -DDEBUG -D_DEBUG
   INCLUDES  += -I../include -I../sqlite-amalgamation -I../Catch/single_include
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
-  CFLAGS    += $(CPPFLAGS) $(ARCH) -g -m64
+  CFLAGS    += $(CPPFLAGS) $(ARCH) -g -m64 -v -std=c++11 -fPIC
   CXXFLAGS  += $(CFLAGS) 
   LDFLAGS   += -L.. -m64 -L/usr/lib64
   RESFLAGS  += $(DEFINES) $(INCLUDES) 
-  LIBS      += ../libsqlite.a ../libhiberlite.a
-  LDDEPS    += ../libsqlite.a ../libhiberlite.a
+  LIBS      += ../libhiberlite.a ../libsqlite.a -ldl -lpthread
+  LDDEPS    += ../libhiberlite.a ../libsqlite.a
   LINKCMD    = $(CXX) -o $(TARGET) $(OBJECTS) $(RESOURCES) $(ARCH) $(LIBS) $(LDFLAGS)
   define PREBUILDCMDS
   endef
@@ -144,12 +144,12 @@ ifeq ($(config),release64)
   DEFINES   += -DRELEASE
   INCLUDES  += -I../include -I../sqlite-amalgamation -I../Catch/single_include
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
-  CFLAGS    += $(CPPFLAGS) $(ARCH) -O2 -m64
+  CFLAGS    += $(CPPFLAGS) $(ARCH) -O2 -m64 -v -std=c++11 -fPIC
   CXXFLAGS  += $(CFLAGS) 
   LDFLAGS   += -L.. -s -m64 -L/usr/lib64
   RESFLAGS  += $(DEFINES) $(INCLUDES) 
-  LIBS      += ../libsqlite.a ../libhiberlite.a
-  LDDEPS    += ../libsqlite.a ../libhiberlite.a
+  LIBS      += ../libhiberlite.a ../libsqlite.a -ldl -lpthread
+  LDDEPS    += ../libhiberlite.a ../libsqlite.a
   LINKCMD    = $(CXX) -o $(TARGET) $(OBJECTS) $(RESOURCES) $(ARCH) $(LIBS) $(LDFLAGS)
   define PREBUILDCMDS
   endef
