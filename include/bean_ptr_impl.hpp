@@ -63,7 +63,7 @@ inline void real_bean<C>::loadLazy()
 template<class C>
 bean_ptr<C>::bean_ptr(bean_key k, rb_pair<C>* para)
 {
-	takeRes(para);
+	this->takeRes(para);
 }
 
 template<class C>
