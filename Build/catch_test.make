@@ -34,20 +34,18 @@ ifeq ($(config),debug)
   DEFINES   += -DDEBUG -D_DEBUG
   INCLUDES  += -I../include -I../sqlite-amalgamation -I../Catch/single_include
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
-  CFLAGS    += $(CPPFLAGS) $(ARCH) -g -v -std=gnu++0x -fPIC
+  CFLAGS    += $(CPPFLAGS) $(ARCH) -g -v -std=c++11 -fPIC
   CXXFLAGS  += $(CFLAGS) 
-  LDFLAGS   += 
+  LDFLAGS   += -L..
   RESFLAGS  += $(DEFINES) $(INCLUDES) 
-  LIBS      += 
-  LDDEPS    += 
+  LIBS      += ../libhiberlite.a ../libsqlite.a -ldl -lpthread
+  LDDEPS    += ../libhiberlite.a ../libsqlite.a
   LINKCMD    = $(CXX) -o $(TARGET) $(OBJECTS) $(RESOURCES) $(ARCH) $(LIBS) $(LDFLAGS)
   define PREBUILDCMDS
   endef
   define PRELINKCMDS
   endef
   define POSTBUILDCMDS
-	@echo Running post-build commands
-	$(TARGET)
   endef
 endif
 
@@ -58,20 +56,18 @@ ifeq ($(config),release)
   DEFINES   += -DRELEASE
   INCLUDES  += -I../include -I../sqlite-amalgamation -I../Catch/single_include
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
-  CFLAGS    += $(CPPFLAGS) $(ARCH) -O2 -v -std=gnu++0x -fPIC
+  CFLAGS    += $(CPPFLAGS) $(ARCH) -O2 -v -std=c++11 -fPIC
   CXXFLAGS  += $(CFLAGS) 
-  LDFLAGS   += -s
+  LDFLAGS   += -L.. -s
   RESFLAGS  += $(DEFINES) $(INCLUDES) 
-  LIBS      += 
-  LDDEPS    += 
+  LIBS      += ../libhiberlite.a ../libsqlite.a -ldl -lpthread
+  LDDEPS    += ../libhiberlite.a ../libsqlite.a
   LINKCMD    = $(CXX) -o $(TARGET) $(OBJECTS) $(RESOURCES) $(ARCH) $(LIBS) $(LDFLAGS)
   define PREBUILDCMDS
   endef
   define PRELINKCMDS
   endef
   define POSTBUILDCMDS
-	@echo Running post-build commands
-	$(TARGET)
   endef
 endif
 
@@ -82,20 +78,18 @@ ifeq ($(config),debug32)
   DEFINES   += -DDEBUG -D_DEBUG
   INCLUDES  += -I../include -I../sqlite-amalgamation -I../Catch/single_include
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
-  CFLAGS    += $(CPPFLAGS) $(ARCH) -g -m32 -v -std=gnu++0x -fPIC
+  CFLAGS    += $(CPPFLAGS) $(ARCH) -g -m32 -v -std=c++11 -fPIC
   CXXFLAGS  += $(CFLAGS) 
-  LDFLAGS   += -m32 -L/usr/lib32
+  LDFLAGS   += -L.. -m32 -L/usr/lib32
   RESFLAGS  += $(DEFINES) $(INCLUDES) 
-  LIBS      += 
-  LDDEPS    += 
+  LIBS      += ../libhiberlite.a ../libsqlite.a -ldl -lpthread
+  LDDEPS    += ../libhiberlite.a ../libsqlite.a
   LINKCMD    = $(CXX) -o $(TARGET) $(OBJECTS) $(RESOURCES) $(ARCH) $(LIBS) $(LDFLAGS)
   define PREBUILDCMDS
   endef
   define PRELINKCMDS
   endef
   define POSTBUILDCMDS
-	@echo Running post-build commands
-	$(TARGET)
   endef
 endif
 
@@ -106,20 +100,18 @@ ifeq ($(config),release32)
   DEFINES   += -DRELEASE
   INCLUDES  += -I../include -I../sqlite-amalgamation -I../Catch/single_include
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
-  CFLAGS    += $(CPPFLAGS) $(ARCH) -O2 -m32 -v -std=gnu++0x -fPIC
+  CFLAGS    += $(CPPFLAGS) $(ARCH) -O2 -m32 -v -std=c++11 -fPIC
   CXXFLAGS  += $(CFLAGS) 
-  LDFLAGS   += -s -m32 -L/usr/lib32
+  LDFLAGS   += -L.. -s -m32 -L/usr/lib32
   RESFLAGS  += $(DEFINES) $(INCLUDES) 
-  LIBS      += 
-  LDDEPS    += 
+  LIBS      += ../libhiberlite.a ../libsqlite.a -ldl -lpthread
+  LDDEPS    += ../libhiberlite.a ../libsqlite.a
   LINKCMD    = $(CXX) -o $(TARGET) $(OBJECTS) $(RESOURCES) $(ARCH) $(LIBS) $(LDFLAGS)
   define PREBUILDCMDS
   endef
   define PRELINKCMDS
   endef
   define POSTBUILDCMDS
-	@echo Running post-build commands
-	$(TARGET)
   endef
 endif
 
@@ -130,20 +122,18 @@ ifeq ($(config),debug64)
   DEFINES   += -DDEBUG -D_DEBUG
   INCLUDES  += -I../include -I../sqlite-amalgamation -I../Catch/single_include
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
-  CFLAGS    += $(CPPFLAGS) $(ARCH) -g -m64 -v -std=gnu++0x -fPIC
+  CFLAGS    += $(CPPFLAGS) $(ARCH) -g -m64 -v -std=c++11 -fPIC
   CXXFLAGS  += $(CFLAGS) 
-  LDFLAGS   += -m64 -L/usr/lib64
+  LDFLAGS   += -L.. -m64 -L/usr/lib64
   RESFLAGS  += $(DEFINES) $(INCLUDES) 
-  LIBS      += 
-  LDDEPS    += 
+  LIBS      += ../libhiberlite.a ../libsqlite.a -ldl -lpthread
+  LDDEPS    += ../libhiberlite.a ../libsqlite.a
   LINKCMD    = $(CXX) -o $(TARGET) $(OBJECTS) $(RESOURCES) $(ARCH) $(LIBS) $(LDFLAGS)
   define PREBUILDCMDS
   endef
   define PRELINKCMDS
   endef
   define POSTBUILDCMDS
-	@echo Running post-build commands
-	$(TARGET)
   endef
 endif
 
@@ -154,24 +144,23 @@ ifeq ($(config),release64)
   DEFINES   += -DRELEASE
   INCLUDES  += -I../include -I../sqlite-amalgamation -I../Catch/single_include
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
-  CFLAGS    += $(CPPFLAGS) $(ARCH) -O2 -m64 -v -std=gnu++0x -fPIC
+  CFLAGS    += $(CPPFLAGS) $(ARCH) -O2 -m64 -v -std=c++11 -fPIC
   CXXFLAGS  += $(CFLAGS) 
-  LDFLAGS   += -s -m64 -L/usr/lib64
+  LDFLAGS   += -L.. -s -m64 -L/usr/lib64
   RESFLAGS  += $(DEFINES) $(INCLUDES) 
-  LIBS      += 
-  LDDEPS    += 
+  LIBS      += ../libhiberlite.a ../libsqlite.a -ldl -lpthread
+  LDDEPS    += ../libhiberlite.a ../libsqlite.a
   LINKCMD    = $(CXX) -o $(TARGET) $(OBJECTS) $(RESOURCES) $(ARCH) $(LIBS) $(LDFLAGS)
   define PREBUILDCMDS
   endef
   define PRELINKCMDS
   endef
   define POSTBUILDCMDS
-	@echo Running post-build commands
-	$(TARGET)
   endef
 endif
 
 OBJECTS := \
+	$(OBJDIR)/catch_tests.o \
 
 RESOURCES := \
 
@@ -236,5 +225,8 @@ endif
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -MF $(@:%.o=%.d) -c "$<"
 endif
 
+$(OBJDIR)/catch_tests.o: ../catch_tests.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -MF $(@:%.o=%.d) -c "$<"
 
 -include $(OBJECTS:%.o=%.d)
