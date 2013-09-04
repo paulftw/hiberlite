@@ -13,6 +13,7 @@ end
 -- Apply to current "filter" (solution/project)
 function DefaultConfig()
 	location "Build"
+	language "C++"
 	configuration "Debug"
 		defines { "DEBUG", "_DEBUG" }
 		objdir "Build/obj"
@@ -30,6 +31,7 @@ function CompilerSpecificFlags()
 			"_CRT_SECURE_NO_DEPRECATE",
 			"_CRT_NONSTDC_NO_DEPRECATE"
 		}
+	configuration {"gmake"}
 end
 
 function CompilerSpecificPostBuildEvent()
@@ -72,7 +74,6 @@ local sln=solution "hiberlite"
 		kind "StaticLib"
 		DefaultConfig()
 		CompilerSpecificFlags()
-		language "C++"
 		files {
 			"./include/*.h",
 			"./include/*.hpp",
@@ -80,14 +81,22 @@ local sln=solution "hiberlite"
 		}
 
 ----------------------------------------------------------------------------------------------------------------
-   local hiberlite=project "sqlite"
-   location "Build"
+   local sqlite=project "sqlite"
 		kind "StaticLib"
 		DefaultConfig()
-		language "C++"
 		files {
 			"./sqlite-amalgamation/*.h",
 			"./sqlite-amalgamation/*.c",
+		}
+
+----------------------------------------------------------------------------------------------------------------
+   local hiberlite_test=project "hiberlite_test"
+		kind "ConsoleApp"
+		DefaultConfig()
+		CompilerSpecificFlags()
+		language "C++"
+		files {
+			"tests.cpp"
 		}
 
 ----------------------------------------------------------------------------------------------------------------
