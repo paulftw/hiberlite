@@ -46,6 +46,8 @@ ifeq ($(config),debug)
   define PRELINKCMDS
   endef
   define POSTBUILDCMDS
+	@echo Running post-build commands
+	$(TARGET)
   endef
 endif
 
@@ -68,6 +70,8 @@ ifeq ($(config),release)
   define PRELINKCMDS
   endef
   define POSTBUILDCMDS
+	@echo Running post-build commands
+	$(TARGET)
   endef
 endif
 
@@ -90,6 +94,8 @@ ifeq ($(config),debug32)
   define PRELINKCMDS
   endef
   define POSTBUILDCMDS
+	@echo Running post-build commands
+	$(TARGET)
   endef
 endif
 
@@ -112,6 +118,8 @@ ifeq ($(config),release32)
   define PRELINKCMDS
   endef
   define POSTBUILDCMDS
+	@echo Running post-build commands
+	$(TARGET)
   endef
 endif
 
@@ -134,6 +142,8 @@ ifeq ($(config),debug64)
   define PRELINKCMDS
   endef
   define POSTBUILDCMDS
+	@echo Running post-build commands
+	$(TARGET)
   endef
 endif
 
@@ -156,6 +166,8 @@ ifeq ($(config),release64)
   define PRELINKCMDS
   endef
   define POSTBUILDCMDS
+	@echo Running post-build commands
+	$(TARGET)
   endef
 endif
 

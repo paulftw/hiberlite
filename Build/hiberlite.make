@@ -160,15 +160,15 @@ ifeq ($(config),release64)
 endif
 
 OBJECTS := \
-	$(OBJDIR)/shared_res.o \
 	$(OBJDIR)/Visitor.o \
-	$(OBJDIR)/ModelExtractor.o \
-	$(OBJDIR)/BeanUpdater.o \
-	$(OBJDIR)/Registry.o \
-	$(OBJDIR)/ChildKiller.o \
 	$(OBJDIR)/Database.o \
-	$(OBJDIR)/BeanLoader.o \
 	$(OBJDIR)/CppModel.o \
+	$(OBJDIR)/BeanLoader.o \
+	$(OBJDIR)/BeanUpdater.o \
+	$(OBJDIR)/ChildKiller.o \
+	$(OBJDIR)/ModelExtractor.o \
+	$(OBJDIR)/shared_res.o \
+	$(OBJDIR)/Registry.o \
 	$(OBJDIR)/SQLiteStmt.o \
 
 RESOURCES := \
@@ -234,31 +234,31 @@ endif
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -MF $(@:%.o=%.d) -c "$<"
 endif
 
-$(OBJDIR)/shared_res.o: ../src/shared_res.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -MF $(@:%.o=%.d) -c "$<"
 $(OBJDIR)/Visitor.o: ../src/Visitor.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -MF $(@:%.o=%.d) -c "$<"
-$(OBJDIR)/ModelExtractor.o: ../src/ModelExtractor.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -MF $(@:%.o=%.d) -c "$<"
-$(OBJDIR)/BeanUpdater.o: ../src/BeanUpdater.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -MF $(@:%.o=%.d) -c "$<"
-$(OBJDIR)/Registry.o: ../src/Registry.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -MF $(@:%.o=%.d) -c "$<"
-$(OBJDIR)/ChildKiller.o: ../src/ChildKiller.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -MF $(@:%.o=%.d) -c "$<"
 $(OBJDIR)/Database.o: ../src/Database.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -MF $(@:%.o=%.d) -c "$<"
+$(OBJDIR)/CppModel.o: ../src/CppModel.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -MF $(@:%.o=%.d) -c "$<"
 $(OBJDIR)/BeanLoader.o: ../src/BeanLoader.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -MF $(@:%.o=%.d) -c "$<"
-$(OBJDIR)/CppModel.o: ../src/CppModel.cpp
+$(OBJDIR)/BeanUpdater.o: ../src/BeanUpdater.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -MF $(@:%.o=%.d) -c "$<"
+$(OBJDIR)/ChildKiller.o: ../src/ChildKiller.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -MF $(@:%.o=%.d) -c "$<"
+$(OBJDIR)/ModelExtractor.o: ../src/ModelExtractor.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -MF $(@:%.o=%.d) -c "$<"
+$(OBJDIR)/shared_res.o: ../src/shared_res.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -MF $(@:%.o=%.d) -c "$<"
+$(OBJDIR)/Registry.o: ../src/Registry.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -MF $(@:%.o=%.d) -c "$<"
 $(OBJDIR)/SQLiteStmt.o: ../src/SQLiteStmt.cpp

@@ -1,13 +1,43 @@
 local OS=os.get()
 
-local cmd = {
- dir = { linux = "ls", windows = "dir" }
+local settings = {
+	dir = {
+		linux = "ls",
+		windows = "dir"
+	},
+	gcc_link = {
+		linux = { "dl" , "pthread" },
+		windows = {}
+	}
 }
 
-local Commands={}
+function print_table(t)
+	print "-----------------"
+	assert(type(t)=='table')
+	for k,v in pairs(t) do
+		print(k,v)
+	end
+end
 
-for i,v in pairs(cmd) do
- Commands[i]=cmd[i][OS]
+function merge_tables(...) 
+    local t = {}
+    for n = 1,select("#",...) do
+        local arg = select(n,...)
+        if type(arg)=="table" then
+            for k,v in pairs(arg) do
+                t[#t+1] = v
+            end
+        else
+            t[#t+1] = arg
+        end
+    end
+    return t
+end
+
+local Settings={}
+
+for i,v in pairs(settings) do
+ Settings[i]=settings[i][OS]
 end
 
 -- Apply to current "filter" (solution/project)
@@ -33,6 +63,7 @@ function CompilerSpecificFlags()
 		}
 	configuration {"gmake"}
 		buildoptions { "-v -std=c++11 -fPIC" }
+	configuration "*" -- to reset configuration filter
 end
 
 function CompilerSpecificPostBuildEvent()
@@ -47,6 +78,7 @@ function CompilerSpecificPostBuildEvent()
 
 	configuration { "vs*"}
 		postbuildcommands { "\"$(TargetPath)\"" }
+	configuration "*" -- to reset configuration filter
 end
 
 ----------------------------------------------------------------------------------------------------------------
@@ -101,12 +133,14 @@ local make_console_project=function(name,input_files,post_build_event)
 		end
 		language "C++"
 		files ( input_files )
-		links {
+		links (deps)
+		configuration {"gmake"}
+		local deps = {
 			"hiberlite",
 			"sqlite"
 		}
-		configuration "linux"
-			links { "dl" , "pthread" }			
+		links (merge_tables( Settings.gcc_link, deps ))
+		configuration "*"
 end
 ----------------------------------------------------------------------------------------------------------------
 
