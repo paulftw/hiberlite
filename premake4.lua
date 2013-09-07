@@ -62,7 +62,7 @@ function CompilerSpecificFlags()
 			"_CRT_NONSTDC_NO_DEPRECATE"
 		}
 	configuration {"gmake"}
-		buildoptions { "-v -std=c++11 -fPIC" }
+		buildoptions { "-v -std=c++0x" }
 	configuration "*" -- to reset configuration filter
 end
 

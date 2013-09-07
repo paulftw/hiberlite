@@ -34,7 +34,7 @@ ifeq ($(config),debug)
   DEFINES   += -DDEBUG -D_DEBUG
   INCLUDES  += -I../include -I../sqlite-amalgamation -I../Catch/single_include
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
-  CFLAGS    += $(CPPFLAGS) $(ARCH) -g -v -std=c++11 -fPIC
+  CFLAGS    += $(CPPFLAGS) $(ARCH) -g -v -std=c++0x
   CXXFLAGS  += $(CFLAGS) 
   LDFLAGS   += -L..
   RESFLAGS  += $(DEFINES) $(INCLUDES) 
@@ -58,7 +58,7 @@ ifeq ($(config),release)
   DEFINES   += -DRELEASE
   INCLUDES  += -I../include -I../sqlite-amalgamation -I../Catch/single_include
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
-  CFLAGS    += $(CPPFLAGS) $(ARCH) -O2 -v -std=c++11 -fPIC
+  CFLAGS    += $(CPPFLAGS) $(ARCH) -O2 -v -std=c++0x
   CXXFLAGS  += $(CFLAGS) 
   LDFLAGS   += -L.. -s
   RESFLAGS  += $(DEFINES) $(INCLUDES) 
@@ -82,7 +82,7 @@ ifeq ($(config),debug32)
   DEFINES   += -DDEBUG -D_DEBUG
   INCLUDES  += -I../include -I../sqlite-amalgamation -I../Catch/single_include
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
-  CFLAGS    += $(CPPFLAGS) $(ARCH) -g -m32 -v -std=c++11 -fPIC
+  CFLAGS    += $(CPPFLAGS) $(ARCH) -g -m32 -v -std=c++0x
   CXXFLAGS  += $(CFLAGS) 
   LDFLAGS   += -L.. -m32 -L/usr/lib32
   RESFLAGS  += $(DEFINES) $(INCLUDES) 
@@ -106,7 +106,7 @@ ifeq ($(config),release32)
   DEFINES   += -DRELEASE
   INCLUDES  += -I../include -I../sqlite-amalgamation -I../Catch/single_include
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
-  CFLAGS    += $(CPPFLAGS) $(ARCH) -O2 -m32 -v -std=c++11 -fPIC
+  CFLAGS    += $(CPPFLAGS) $(ARCH) -O2 -m32 -v -std=c++0x
   CXXFLAGS  += $(CFLAGS) 
   LDFLAGS   += -L.. -s -m32 -L/usr/lib32
   RESFLAGS  += $(DEFINES) $(INCLUDES) 
@@ -130,7 +130,7 @@ ifeq ($(config),debug64)
   DEFINES   += -DDEBUG -D_DEBUG
   INCLUDES  += -I../include -I../sqlite-amalgamation -I../Catch/single_include
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
-  CFLAGS    += $(CPPFLAGS) $(ARCH) -g -m64 -v -std=c++11 -fPIC
+  CFLAGS    += $(CPPFLAGS) $(ARCH) -g -m64 -v -std=c++0x
   CXXFLAGS  += $(CFLAGS) 
   LDFLAGS   += -L.. -m64 -L/usr/lib64
   RESFLAGS  += $(DEFINES) $(INCLUDES) 
@@ -154,7 +154,7 @@ ifeq ($(config),release64)
   DEFINES   += -DRELEASE
   INCLUDES  += -I../include -I../sqlite-amalgamation -I../Catch/single_include
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
-  CFLAGS    += $(CPPFLAGS) $(ARCH) -O2 -m64 -v -std=c++11 -fPIC
+  CFLAGS    += $(CPPFLAGS) $(ARCH) -O2 -m64 -v -std=c++0x
   CXXFLAGS  += $(CFLAGS) 
   LDFLAGS   += -L.. -s -m64 -L/usr/lib64
   RESFLAGS  += $(DEFINES) $(INCLUDES) 
