@@ -1,0 +1,6 @@
+[submodule "Catch"]
+	path = Catch
+	url = https://github.com/philsquared/Catch.git
+[submodule "sqlite-amalgamation"]
+	path = sqlite-amalgamation
+	url = https://github.com/sqlg/sqlite-amalgamation.git

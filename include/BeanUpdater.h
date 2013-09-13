@@ -1,6 +1,9 @@
 #ifndef BEANUPDATER_H
 #define BEANUPDATER_H
 
+#include <stdio.h>
+#include <string.h>
+
 namespace hiberlite{
 
 struct RowScope{

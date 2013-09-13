@@ -32,7 +32,7 @@ void createDB()
 	//create those tables again with proper schema
 	db.createModel();
 
-	char* names[5]={"Stanley Marsh", "Kyle Broflovski", "Eric Theodore Cartman", "Kenneth McCormick", "Leopold Stotch"};
+	const char* names[5]={"Stanley Marsh", "Kyle Broflovski", "Eric Theodore Cartman", "Kenneth McCormick", "Leopold Stotch"};
 
 	for(int i=0;i<5;i++) {
 		Person x;
