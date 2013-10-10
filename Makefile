@@ -3,12 +3,12 @@ INSTALL_PREFIX = /usr
 INSTALL_HEADERS = $(INSTALL_PREFIX)/include/hiberlite
 INSTALL_LIB = $(INSTALL_PREFIX)/lib
 
-all : libhiberlite.a tests sample
+all : libhiberlite.a sqlite3.o tests sample
 
-OBJS=BeanLoader.o BeanUpdater.o ChildKiller.o CppModel.o Database.o ModelExtractor.o Registry.o SQLiteStmt.o Visitor.o shared_res.o
+OBJS=BeanLoader.o BeanUpdater.o ChildKiller.o CppModel.o Database.o ModelExtractor.o Registry.o SQLiteStmt.o Visitor.o shared_res.o sqlite3.o
 
-CXXFLAGS=-Iinclude/ -Wall 
-LDFLAGS=-lsqlite3
+CXXFLAGS=-std=c++0x -Iinclude/ -Wall -Isqlite-amalgamation
+LDFLAGS=-lpthread -ldl
 
 libhiberlite.a : $(OBJS)
 	ar -r -s libhiberlite.a $(OBJS)
@@ -20,6 +20,9 @@ install :
 	cp include/* $(INSTALL_HEADERS)/
 	mkdir -p $(INSTALL_LIB)
 	cp libhiberlite.a $(INSTALL_LIB)/
+
+sqlite3.o :
+	gcc -c sqlite-amalgamation/sqlite3.c -o sqlite3.o
 
 %.o : src/%.cpp include/*
 	g++ -c $(CXXFLAGS) $< -o $@
