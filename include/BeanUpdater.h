@@ -95,7 +95,7 @@ HIBERLITE_STRINGIFY_UNSIGNED_NUM(unsigned long long int)
 			char* s=new char[4+2*n];
 			int x=sprintf(s,"X'");
 
-			for(int i=0;i<n;i++){
+			for(unsigned int i=0;i<n;i++){
 				unsigned char cc=(unsigned char)val[i];
 				x+=sprintf(s+x,"%02X", (int)cc);
 			}

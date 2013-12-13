@@ -84,7 +84,7 @@ struct Tester{
 		db.dropModel();
 		db.createModel();
 
-		for(int i=0;i<5;i++){
+		for(unsigned int i=0;i<5;i++){
 			A obj;
 			obj.i=i;
 			char ss[100];
@@ -92,7 +92,7 @@ struct Tester{
 			obj.s=ss;
 
 			B x;
-			for(int i=0;i<5;i++){
+			for(unsigned int i=0;i<5;i++){
 				obj.mm[i%3].push_back(i);
 				obj.mm[i%3].push_back(2*i);
 				obj.vi.push_back(make_pair(i,i*i*i));
@@ -139,18 +139,18 @@ struct Tester{
 		x.vvi.resize(5);
 		map< vector<string>, map<string,string> > mm;
 		vector<string> randstr;
-		int NS=30;
-		for(int i=0;i<NS;i++)
+		unsigned int NS=30;
+		for(unsigned int i=0;i<NS;i++)
 			randstr.push_back(hiberlite::Transformer::toSQLiteValue(rand()%100+i));
 
-		for(int i=0;i<100;i++){
+		for(unsigned int i=0;i<100;i++){
 			x.seti.insert( make_pair(i*i,1.0/i+sqrt(i)) );
 			x.vvi[(i*i)%5].push_back(10003%(i+1));
 
 			vector<string> vs;
-			for(int i=0;i<5;i++)
+			for(unsigned int i=0;i<5;i++)
 				vs.push_back( randstr[(17+7*i)%NS] );
-			for(int i=0;i<10;i++)
+			for(unsigned int i=0;i<10;i++)
 				x.mm[vs][ randstr[(19*i)%NS] ]=randstr[(23*i)%NS];
 		}
 
