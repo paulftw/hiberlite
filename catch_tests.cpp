@@ -147,7 +147,7 @@ TEST_CASE() {
 	x.vvi.resize(5);
 	map< vector<string>, map<string,string> > mm;
 	vector<string> randstr;
-	int NS=30;
+	unsigned int NS=30;
 	for(unsigned int i=0;i<NS;i++)
 		randstr.push_back(hiberlite::Transformer::toSQLiteValue(rand()%100+i));
 
