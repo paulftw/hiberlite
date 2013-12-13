@@ -32,3 +32,6 @@ tests : tests.cpp libhiberlite.a
 
 sample : sample.cpp libhiberlite.a
 	g++ $(CXXFLAGS) -L./ sample.cpp -o sample -lhiberlite $(LDFLAGS)
+
+clean:
+	rm -rf *.o tests sample

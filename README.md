@@ -10,7 +10,7 @@ Just compile and link all files under src/ to your project.
 Include the main header:
 
 ```cpp
-#include "hiberlite.h" 
+#include "hiberlite.h"
 ```
 
 ## Features
@@ -33,7 +33,7 @@ and don't like coding in SQL.
 
 -----------------------
 
-# Turorial
+# Tutorial
 
 While building a typical RDBMS application developer has to deal with the following tasks:
 
@@ -47,7 +47,7 @@ Hiberlite greatly reduces the implementation of each of these tasks.
 ## Creating a database
 
 Opening a database is as simple as
-       
+
 ```cpp
 hiberlite::Database db;
 db.open("sample.db");
@@ -140,7 +140,7 @@ When the classes are registered, Database can create tables to map them:
 db.dropModel();
 db.createModel();
 ```
-    
+
 **createModel()** executes several **CREATE TABLE** queries.
 **dropModel()** cleans the database - executes **DROP TABLE IF EXISTS** query for each table in the schema.
 Besides uninstallers, this method may be used to destroy the old tables (from a probably obsolete scheme)
@@ -148,7 +148,7 @@ before calling createModel().
 
 ## Saving data
 
-When the database with proper chema is opened, we can put some Person objects in it:
+When the database with proper schema is opened, we can put some Person objects in it:
 
 ```cpp
 Person x;
@@ -253,13 +253,13 @@ for hiberlite to access the internal structure of the user-defined class.
 hiberlite will use 2 tables to represent MyClass instances in the database:
 
 ```cpp
-CREATE TABLE MyClass 
+CREATE TABLE MyClass
 (
     a INTEGER,
     b REAL,
     hiberlite_id INTEGER PRIMARY KEY AUTOINCREMENT
 )
-CREATE TABLE MyClass_vs_items 
+CREATE TABLE MyClass_vs_items
 (
     hiberlite_entry_indx INTEGER,
     hiberlite_id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -294,7 +294,7 @@ You must not call **delete ptr;** after calling **manageBean(ptr)** - **bean_ptr
 
 ## Loading data
 
-Call to 
+Call to
 
 ```cpp
 std::vector< hiberlite::bean_ptr<MyClass> > v=db.getAllBeans<MyClass>();

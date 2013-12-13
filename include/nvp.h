@@ -25,7 +25,7 @@ class collection_nvp{
 
 class abstract_atom{
 	public:
-		inline virtual void bindValue(sqlite3_stmt* stmt, int col)=0;
+		virtual void bindValue(sqlite3_stmt* stmt, int col)=0;
 		inline virtual ~abstract_atom() {}
 };
 

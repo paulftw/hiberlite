@@ -34,7 +34,7 @@ void createDB()
 
 	const char* names[5]={"Stanley Marsh", "Kyle Broflovski", "Eric Theodore Cartman", "Kenneth McCormick", "Leopold Stotch"};
 
-	for(int i=0;i<5;i++) {
+	for(unsigned int i=0;i<5;i++) {
 		Person x;
 		x.name=names[i%5];
 		x.age=14+i*0.1;

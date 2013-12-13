@@ -25,8 +25,8 @@ class LoadBean {
 
 		inline int locateCol(std::string name){
 			SQLiteSelect& sel=stmt.top().first;
-			int n=sel.column_count();
-			for(int i=0;i<n;i++)
+			unsigned int n=sel.column_count();
+			for(unsigned int i=0;i<n;i++)
 			if(sel.get_name(i)==name)
 				return i;
 			throw database_error(name+": column not found in SELECT query results");
