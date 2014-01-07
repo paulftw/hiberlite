@@ -52,7 +52,7 @@ void UpdateBean::commitRow(shared_connection con, sqlid_t rowid)
 	shared_stmt statement( new statement_ptr(stmt_ptr) );
 
 	for(size_t i=0;i<curRow()->atoms.size();i++){
-		curRow()->atoms[i]->bindValue(statement->get_stmt(), i+RowScope::FirstAtom);
+		curRow()->atoms[i]->bindValue(statement->get_stmt(), static_cast<int>(i)+RowScope::FirstAtom);
 	}
 
 	{
