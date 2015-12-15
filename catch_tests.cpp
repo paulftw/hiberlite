@@ -7,6 +7,7 @@ using namespace hiberlite;
 #include <cmath>
 #include <vector>
 #include <map>
+#include <limits>
 using namespace std;
 
 
@@ -198,7 +199,7 @@ TEST_CASE("unsigned long long should survive serialization") {
     db.dropModel();
     db.createModel();
 
-    ULL max = { ULLONG_MAX };
+    ULL max = { numeric_limits<unsigned long long>::max() };
     // struct to avoid compiler warning C4307
     REQUIRE((max.ull + 1) == 0);
     bean_ptr<ULL> max_old = db.copyBean(max);
