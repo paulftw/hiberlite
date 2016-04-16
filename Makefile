@@ -22,7 +22,7 @@ install :
 	cp libhiberlite.a $(INSTALL_LIB)/
 
 sqlite3.o :
-	gcc -c sqlite-amalgamation/sqlite3.c -o sqlite3.o
+	gcc -c sqlite-amalgamation/sqlite3.c -DSQLITE_ENABLE_FTS5 -o sqlite3.o
 
 %.o : src/%.cpp include/*
 	g++ -c $(CXXFLAGS) $< -o $@
