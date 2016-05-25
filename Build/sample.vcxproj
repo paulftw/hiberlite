@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug native|Win32">
       <Configuration>Debug native</Configuration>
@@ -36,6 +36,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{073E391B-F3DF-63F1-DC9A-7745C8DBEA41}</ProjectGuid>
+    <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>sample</RootNamespace>
   </PropertyGroup>
@@ -44,37 +45,37 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release native|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -100,43 +101,43 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug native|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>.\</OutDir>
-    <IntDir>obj\native\Debug\sample\</IntDir>
+    <OutDir>..\bin\sample\Debug\</OutDir>
+    <IntDir>..\obj\sample\Debug\native\</IntDir>
     <TargetName>sample</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>.\</OutDir>
-    <IntDir>obj\x32\Debug\sample\</IntDir>
+    <OutDir>..\bin\sample\Debug\</OutDir>
+    <IntDir>..\obj\sample\Debug\x32\</IntDir>
     <TargetName>sample</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>.\</OutDir>
-    <IntDir>obj\x64\Debug\sample\</IntDir>
+    <OutDir>..\bin\sample\Debug\</OutDir>
+    <IntDir>..\obj\sample\Debug\x64\</IntDir>
     <TargetName>sample</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release native|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>.\</OutDir>
-    <IntDir>obj\native\Release\sample\</IntDir>
+    <OutDir>..\bin\sample\Release\</OutDir>
+    <IntDir>..\obj\sample\Release\native\</IntDir>
     <TargetName>sample</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>.\</OutDir>
-    <IntDir>obj\x32\Release\sample\</IntDir>
+    <OutDir>..\bin\sample\Release\</OutDir>
+    <IntDir>..\obj\sample\Release\x32\</IntDir>
     <TargetName>sample</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>.\</OutDir>
-    <IntDir>obj\x64\Release\sample\</IntDir>
+    <OutDir>..\bin\sample\Release\</OutDir>
+    <IntDir>..\obj\sample\Release\x64\</IntDir>
     <TargetName>sample</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
@@ -147,18 +148,16 @@
       <PreprocessorDefinitions>DEBUG;_DEBUG;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\include;..\sqlite-amalgamation;..\Catch\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <ProgramDataBaseFileName>$(OutDir)sample.pdb</ProgramDataBaseFileName>
       <Optimization>Disabled</Optimization>
     </ClCompile>
-    <ResourceCompile>
-      <PreprocessorDefinitions>DEBUG;_DEBUG;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\include;..\sqlite-amalgamation;..\Catch\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-    </ResourceCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
+    <PostBuildEvent>
+      <Command>"$(TargetPath)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -167,18 +166,16 @@
       <PreprocessorDefinitions>DEBUG;_DEBUG;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\include;..\sqlite-amalgamation;..\Catch\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <ProgramDataBaseFileName>$(OutDir)sample.pdb</ProgramDataBaseFileName>
       <Optimization>Disabled</Optimization>
     </ClCompile>
-    <ResourceCompile>
-      <PreprocessorDefinitions>DEBUG;_DEBUG;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\include;..\sqlite-amalgamation;..\Catch\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-    </ResourceCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
+    <PostBuildEvent>
+      <Command>"$(TargetPath)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -187,18 +184,16 @@
       <PreprocessorDefinitions>DEBUG;_DEBUG;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\include;..\sqlite-amalgamation;..\Catch\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <ProgramDataBaseFileName>$(OutDir)sample.pdb</ProgramDataBaseFileName>
       <Optimization>Disabled</Optimization>
     </ClCompile>
-    <ResourceCompile>
-      <PreprocessorDefinitions>DEBUG;_DEBUG;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\include;..\sqlite-amalgamation;..\Catch\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-    </ResourceCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
+    <PostBuildEvent>
+      <Command>"$(TargetPath)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release native|Win32'">
     <ClCompile>
@@ -212,10 +207,6 @@
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
     </ClCompile>
-    <ResourceCompile>
-      <PreprocessorDefinitions>RELEASE;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\include;..\sqlite-amalgamation;..\Catch\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-    </ResourceCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>false</GenerateDebugInformation>
@@ -223,6 +214,9 @@
       <OptimizeReferences>true</OptimizeReferences>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
+    <PostBuildEvent>
+      <Command>"$(TargetPath)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -236,10 +230,6 @@
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
     </ClCompile>
-    <ResourceCompile>
-      <PreprocessorDefinitions>RELEASE;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\include;..\sqlite-amalgamation;..\Catch\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-    </ResourceCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>false</GenerateDebugInformation>
@@ -247,6 +237,9 @@
       <OptimizeReferences>true</OptimizeReferences>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
+    <PostBuildEvent>
+      <Command>"$(TargetPath)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -260,10 +253,6 @@
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
     </ClCompile>
-    <ResourceCompile>
-      <PreprocessorDefinitions>RELEASE;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\include;..\sqlite-amalgamation;..\Catch\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-    </ResourceCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>false</GenerateDebugInformation>
@@ -271,17 +260,19 @@
       <OptimizeReferences>true</OptimizeReferences>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
+    <PostBuildEvent>
+      <Command>"$(TargetPath)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\sample.cpp">
-    </ClCompile>
+    <ClCompile Include="..\sample.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="sqlite.vcxproj">
-      <Project>{F71C5A1C-E3BE-84F2-CC79-9846B8BA0B43}</Project>
-    </ProjectReference>
     <ProjectReference Include="hiberlite.vcxproj">
       <Project>{1DFD5A97-8967-0F0E-D2A5-C0B33E4FED62}</Project>
+    </ProjectReference>
+    <ProjectReference Include="sqlite.vcxproj">
+      <Project>{F71C5A1C-E3BE-84F2-CC79-9846B8BA0B43}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -7,6 +7,7 @@ using namespace hiberlite;
 #include <cmath>
 #include <vector>
 #include <map>
+#include <limits>
 using namespace std;
 
 
@@ -179,3 +180,30 @@ TEST_CASE() {
 	}
 
 }
+
+struct ULL {
+    unsigned long long ull;
+
+    template<class Archive>
+    void hibernate(Archive & ar)
+    {
+        ar & HIBERLITE_NVP(ull);
+    }
+};
+
+HIBERLITE_EXPORT_CLASS(ULL);
+
+TEST_CASE("unsigned long long should survive serialization") {
+    hiberlite::Database db("ull.db");
+    db.registerBeanClass<ULL>();
+    db.dropModel();
+    db.createModel();
+
+    ULL max = { numeric_limits<unsigned long long>::max() };
+    // struct to avoid compiler warning C4307
+    REQUIRE((max.ull + 1) == 0);
+    bean_ptr<ULL> max_old = db.copyBean(max);
+    bean_ptr<ULL> max_new = db.loadBean<ULL>(max_old.get_id());
+    CHECK(max_new->ull == max.ull);
+}
+

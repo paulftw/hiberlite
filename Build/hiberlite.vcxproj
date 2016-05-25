@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug native|Win32">
       <Configuration>Debug native</Configuration>
@@ -36,6 +36,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{1DFD5A97-8967-0F0E-D2A5-C0B33E4FED62}</ProjectGuid>
+    <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>hiberlite</RootNamespace>
   </PropertyGroup>
@@ -44,37 +45,37 @@
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release native|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -99,38 +100,38 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug native|Win32'">
-    <OutDir>.\</OutDir>
-    <IntDir>obj\native\Debug\hiberlite\</IntDir>
+    <OutDir>..\bin\hiberlite\Debug\</OutDir>
+    <IntDir>..\obj\hiberlite\Debug\native\</IntDir>
     <TargetName>hiberlite</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>.\</OutDir>
-    <IntDir>obj\x32\Debug\hiberlite\</IntDir>
+    <OutDir>..\bin\hiberlite\Debug\</OutDir>
+    <IntDir>..\obj\hiberlite\Debug\x32\</IntDir>
     <TargetName>hiberlite</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>.\</OutDir>
-    <IntDir>obj\x64\Debug\hiberlite\</IntDir>
+    <OutDir>..\bin\hiberlite\Debug\</OutDir>
+    <IntDir>..\obj\hiberlite\Debug\x64\</IntDir>
     <TargetName>hiberlite</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release native|Win32'">
-    <OutDir>.\</OutDir>
-    <IntDir>obj\native\Release\hiberlite\</IntDir>
+    <OutDir>..\bin\hiberlite\Release\</OutDir>
+    <IntDir>..\obj\hiberlite\Release\native\</IntDir>
     <TargetName>hiberlite</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>.\</OutDir>
-    <IntDir>obj\x32\Release\hiberlite\</IntDir>
+    <OutDir>..\bin\hiberlite\Release\</OutDir>
+    <IntDir>..\obj\hiberlite\Release\x32\</IntDir>
     <TargetName>hiberlite</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>.\</OutDir>
-    <IntDir>obj\x64\Release\hiberlite\</IntDir>
+    <OutDir>..\bin\hiberlite\Release\</OutDir>
+    <IntDir>..\obj\hiberlite\Release\x64\</IntDir>
     <TargetName>hiberlite</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
@@ -141,13 +142,8 @@
       <PreprocessorDefinitions>DEBUG;_DEBUG;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\include;..\sqlite-amalgamation;..\Catch\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <ProgramDataBaseFileName>$(OutDir)hiberlite.pdb</ProgramDataBaseFileName>
       <Optimization>Disabled</Optimization>
     </ClCompile>
-    <ResourceCompile>
-      <PreprocessorDefinitions>DEBUG;_DEBUG;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\include;..\sqlite-amalgamation;..\Catch\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-    </ResourceCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -160,13 +156,8 @@
       <PreprocessorDefinitions>DEBUG;_DEBUG;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\include;..\sqlite-amalgamation;..\Catch\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <ProgramDataBaseFileName>$(OutDir)hiberlite.pdb</ProgramDataBaseFileName>
       <Optimization>Disabled</Optimization>
     </ClCompile>
-    <ResourceCompile>
-      <PreprocessorDefinitions>DEBUG;_DEBUG;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\include;..\sqlite-amalgamation;..\Catch\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-    </ResourceCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -179,13 +170,8 @@
       <PreprocessorDefinitions>DEBUG;_DEBUG;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\include;..\sqlite-amalgamation;..\Catch\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <ProgramDataBaseFileName>$(OutDir)hiberlite.pdb</ProgramDataBaseFileName>
       <Optimization>Disabled</Optimization>
     </ClCompile>
-    <ResourceCompile>
-      <PreprocessorDefinitions>DEBUG;_DEBUG;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\include;..\sqlite-amalgamation;..\Catch\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-    </ResourceCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -203,10 +189,6 @@
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
     </ClCompile>
-    <ResourceCompile>
-      <PreprocessorDefinitions>RELEASE;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\include;..\sqlite-amalgamation;..\Catch\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-    </ResourceCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>false</GenerateDebugInformation>
@@ -226,10 +208,6 @@
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
     </ClCompile>
-    <ResourceCompile>
-      <PreprocessorDefinitions>RELEASE;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\include;..\sqlite-amalgamation;..\Catch\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-    </ResourceCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>false</GenerateDebugInformation>
@@ -249,10 +227,6 @@
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
     </ClCompile>
-    <ResourceCompile>
-      <PreprocessorDefinitions>RELEASE;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\include;..\sqlite-amalgamation;..\Catch\single_include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-    </ResourceCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>false</GenerateDebugInformation>
@@ -289,26 +263,16 @@
     <ClInclude Include="..\include\some_types.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\BeanLoader.cpp">
-    </ClCompile>
-    <ClCompile Include="..\src\BeanUpdater.cpp">
-    </ClCompile>
-    <ClCompile Include="..\src\ChildKiller.cpp">
-    </ClCompile>
-    <ClCompile Include="..\src\CppModel.cpp">
-    </ClCompile>
-    <ClCompile Include="..\src\Database.cpp">
-    </ClCompile>
-    <ClCompile Include="..\src\ModelExtractor.cpp">
-    </ClCompile>
-    <ClCompile Include="..\src\Registry.cpp">
-    </ClCompile>
-    <ClCompile Include="..\src\SQLiteStmt.cpp">
-    </ClCompile>
-    <ClCompile Include="..\src\Visitor.cpp">
-    </ClCompile>
-    <ClCompile Include="..\src\shared_res.cpp">
-    </ClCompile>
+    <ClCompile Include="..\src\BeanLoader.cpp" />
+    <ClCompile Include="..\src\BeanUpdater.cpp" />
+    <ClCompile Include="..\src\ChildKiller.cpp" />
+    <ClCompile Include="..\src\CppModel.cpp" />
+    <ClCompile Include="..\src\Database.cpp" />
+    <ClCompile Include="..\src\ModelExtractor.cpp" />
+    <ClCompile Include="..\src\Registry.cpp" />
+    <ClCompile Include="..\src\SQLiteStmt.cpp" />
+    <ClCompile Include="..\src\Visitor.cpp" />
+    <ClCompile Include="..\src\shared_res.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
