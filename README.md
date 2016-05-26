@@ -306,3 +306,56 @@ bean_ptr<c> is a smart pointer, but I forgot to mention that it is also a lazy p
 Beans itself are not loaded when with **getAllBeans<myclass>()** - only their primary keys.
 To give user the access to the underlying object, C& bean_ptr<c>::operator->() is overloaded.
 The object will be created and fetched from the database with the first use of operator->.
+
+## User-defined primitive types
+
+Sometimes, numbers or strings are not suitable representations for fields of objects. In that case it is possible to extend `hiberlite`'s conversion mechanism to support types other than the ones supported. For example:
+
+given an enum:
+
+```cpp
+enum class Status {
+        OK,
+        NOT_OK
+};
+```
+
+the macro `HIBERLITE_NVP` will cause a compile error if a member of that type is used with it. In order to convert the enum to a number and back (conversion safety considerations may apply), it is possible to define custom conversions before defining the data model:
+
+```cpp
+namespace hiberlite {
+    template <class A>
+    void hibernate(A& ar, Status& value, const unsigned int) {
+        ar& db_atom<Status>(value);
+    }
+
+    template <>
+    inline std::string db_atom<Status>::sqliteStorageClass() {
+        return "INTEGER";
+    }
+
+    template <>
+    template <class Stmt, class Arg>
+    void db_atom<Status>::loadValue(Stmt& res, Arg& arg) {
+        val = static_cast<Status>(res.get_int(arg));
+    }
+
+    template <>
+    inline void db_atom<Status>::bindValue(sqlite3_stmt* stmt, int col) {
+        sqlite3_bind_int(stmt, col, static_cast<int>(val));
+    }
+}
+```
+
+This allows the following to work:
+
+```cpp
+struct Item {
+    Status status;
+
+    template <class Archive>
+    void hibernate(Archive & ar) {
+        ar & HIBERLITE_NVP(status);
+    }
+};
+```
