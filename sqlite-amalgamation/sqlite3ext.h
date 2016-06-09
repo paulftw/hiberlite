@@ -276,7 +276,11 @@ struct sqlite3_api_routines {
   unsigned int (*value_subtype)(sqlite3_value*);
   void (*result_subtype)(sqlite3_context*,unsigned int);
   /* Version 3.10.0 and later */
+  int (*status64)(int,sqlite3_int64*,sqlite3_int64*,int);
   int (*strlike)(const char*,const char*,unsigned int);
+  int (*db_cacheflush)(sqlite3*);
+  /* Version 3.12.0 and later */
+  int (*system_errno)(sqlite3*);
 };
 
 /*
@@ -517,7 +521,11 @@ struct sqlite3_api_routines {
 #define sqlite3_value_subtype          sqlite3_api->value_subtype
 #define sqlite3_result_subtype         sqlite3_api->result_subtype
 /* Version 3.10.0 and later */
+#define sqlite3_status64               sqlite3_api->status64
 #define sqlite3_strlike                sqlite3_api->strlike
+#define sqlite3_db_cacheflush          sqlite3_api->db_cacheflush
+/* Version 3.12.0 and later */
+#define sqlite3_system_errno           sqlite3_api->system_errno
 #endif /* !defined(SQLITE_CORE) && !defined(SQLITE_OMIT_LOAD_EXTENSION) */
 
 #if !defined(SQLITE_CORE) && !defined(SQLITE_OMIT_LOAD_EXTENSION)
