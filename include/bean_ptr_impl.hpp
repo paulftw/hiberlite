@@ -7,6 +7,9 @@ real_bean<C>::real_bean(const bean_key _key, C* _obj) : key(_key), obj(_obj), fo
 template<class C>
 real_bean<C>::~real_bean()
 {
+#ifdef SAVE_BEAN_ON_DESTRUCT
+  save();
+#endif
 	delete obj;
 }
 

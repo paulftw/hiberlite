@@ -218,3 +218,8 @@ pip-log.txt
 *.exe
 !premake4.exe
 *.a
+*.o
+catch_test
+hiberlite_test
+sample
+tests
