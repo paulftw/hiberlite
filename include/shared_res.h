@@ -19,7 +19,7 @@ public:
 	inline C* getRes(){
 		return res;
 	}
-	inline virtual ~shared_cnt_obj_pair(){
+	inline virtual ~shared_cnt_obj_pair() noexcept(false){
 		if(refCount)
 			throw std::logic_error("resource is busy");
 		delete res;
