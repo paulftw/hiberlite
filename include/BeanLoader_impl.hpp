@@ -16,7 +16,7 @@ void LoadBean::notifyInitWalk(AV& av)
 
 	SQLiteSelect sel(av.getConnection(), query);
 	if(!sel.step())
-		throw database_error("id not found in the database");
+		throw database_error("Id " + std::to_string(curId) + " not found in table " + av.getScope().table());
 	stmt.push( std::make_pair(sel,curId) );
 }
 
