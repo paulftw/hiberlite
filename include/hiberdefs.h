@@ -13,7 +13,7 @@
 namespace hiberlite{							\
 template<>										\
 std::string Database::getClassName<ClName>()	\
-{	return #ClName;	}}
+{	std::string temp(#ClName);std::replace(temp.begin(), temp.end(), ':', '_');return temp;}}
 
 //#define HIBERLITE_COLLECTION(Field) hiberlite::collection_nvp<typeof(Field),typeof(Field.begin())>(#Field, Field, Field.begin(), Field.end())
 //#define HIBERLITE_ARRAY(Field,N) hiberlite::collection_nvp<typeof(Field),typeof(Field[0])>(#Field,  *Field, *(Field+N))
