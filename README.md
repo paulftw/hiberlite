@@ -1,6 +1,7 @@
 # Hiberlite ORM
 
-[![Build Status](https://travis-ci.org/paulftw/hiberlite.png?branch=master)](https://travis-ci.org/paulftw/hiberlite)
+[![Build Status](https://travis-ci.org/paulftw/hiberlite.png?branch=master)](https://travis-ci.org/paulftw/hiberlite) [![Build status](https://ci.appveyor.com/api/projects/status/7hmib3hlpx40ap07/branch/master?svg=true)](https://ci.appveyor.com/project/d-led/hiberlite/branch/master)
+
 
 C++ object-relational mapping with API inspired by the awesome Boost.Serialization - that means _almost no API to learn_.
 
