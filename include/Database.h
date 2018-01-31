@@ -8,7 +8,7 @@ class UpdateBean;
 
 class Database : noncopyable
 {
-	private:
+	protected:
 		friend class UpdateBean;
 		friend class KillChildren;
 		friend class LoadBean;
