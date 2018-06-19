@@ -132,25 +132,50 @@ HIBERLITE_DEF_DB_ATOM(double, get_double, sqlite3_bind_double, "REAL")
 #undef HIBERLITE_DEF_INT_ATOM
 #undef HIBERLITE_DEF_DB_ATOM
 
+// std::string -> TEXT type
+
 template<class A>
-void hibernate(A& ar, std::string& value, const unsigned int){
+void hibernate(A& ar, std::string& value, const unsigned int) {
 	ar & db_atom<std::string>(value);
 }
 
 template<> template<class Stmt,class Arg>
-void db_atom<std::string>::loadValue(Stmt& res, Arg& arg){
-	val=std::string(	(const char*)(res.get_text(arg))	);
+void db_atom<std::string>::loadValue(Stmt& res, Arg& arg) {
+	val = std::string((const char*)(res.get_text(arg)));
 }
 
 template<>
-inline std::string db_atom<std::string>::sqliteStorageClass(){
+inline std::string db_atom<std::string>::sqliteStorageClass() {
 	return "TEXT";
 }
+
 template<>
-inline void db_atom<std::string>::bindValue(sqlite3_stmt* stmt, int col){
-	sqlite3_bind_text(stmt,col,val.c_str(),-1,SQLITE_TRANSIENT);
+inline void db_atom<std::string>::bindValue(sqlite3_stmt* stmt, int col) {
+	sqlite3_bind_text(stmt, col, val.c_str(), -1, SQLITE_TRANSIENT);
 }
 
+// std::vector<uint8_t> -> BLOB type
+
+template<class A>
+void hibernate(A& ar, std::vector<uint8_t>& value, const unsigned int){
+	ar & db_atom<std::vector<uint8_t>>(value);
+}
+
+template<> template<class Stmt,class Arg>
+void db_atom<std::vector<uint8_t>>::loadValue(Stmt& res, Arg& arg) {
+    const uint8_t* tmp = static_cast<const uint8_t*>(res.get_blob(arg));
+	val.assign(tmp, tmp + res.get_bytes(arg));
+}
+
+template<>
+inline std::string db_atom<std::vector<uint8_t>>::sqliteStorageClass() {
+	return "BLOB";
+}
+
+template<>
+inline void db_atom<std::vector<uint8_t>>::bindValue(sqlite3_stmt* stmt, int col) {
+	sqlite3_bind_blob(stmt, col, val.data(), val.size(), SQLITE_TRANSIENT);
+}
 
 } //namespace hiberlite
 

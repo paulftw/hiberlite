@@ -66,9 +66,24 @@ class X{
 		}
 };
 
+class WrappedBytes {
+    friend class hiberlite::access;
+    template<class Archive>
+	void hibernate(Archive & ar)
+	{
+  	  ar & HIBERLITE_NVP(bytes);
+	}
+	public:
+		vector<uint8_t> bytes;
+		bool operator==(const WrappedBytes& wrappedBytes) {
+			return bytes == wrappedBytes.bytes;
+		}
+};
+
 HIBERLITE_EXPORT_CLASS(A)
 HIBERLITE_EXPORT_CLASS(B)
 HIBERLITE_EXPORT_CLASS(X)
+HIBERLITE_EXPORT_CLASS(WrappedBytes)
 
 struct Tester{
 	void test1(){
@@ -171,6 +186,27 @@ struct Tester{
 		}
 
 	}
+
+    void test4() {
+        WrappedBytes wrappedBytes;
+        wrappedBytes.bytes = {'a', 'b', 'c', 'd', 'e'};
+        
+        {
+          Database db("t4.db");
+          db.registerBeanClass<WrappedBytes>();
+          db.dropModel();
+          db.createModel();
+          db.copyBean(wrappedBytes);
+        }
+
+        {
+          Database db("t4.db");
+          db.registerBeanClass<WrappedBytes>();
+          bean_ptr<WrappedBytes> wb_ptr = db.loadBean<WrappedBytes>(1);
+          if (!(*wb_ptr == wrappedBytes))
+              throw std::runtime_error("BLOB load failed");
+        }
+    }
 };
 
 int main()
@@ -181,6 +217,7 @@ int main()
 			t.test1();
 			t.test2();
 			t.test3();
+            t.test4();
 		}
 		cout << "tests passed\n";
 	}catch(std::exception& e){
