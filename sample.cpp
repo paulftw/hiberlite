@@ -6,6 +6,8 @@
 #include <algorithm>
 using namespace std;
 
+#define TEST_OLD_DB 1
+
 class Person{
   friend class hiberlite::access;
   template<class Archive>
@@ -28,10 +30,16 @@ void createDB()
   hiberlite::Database db("sample.db");
   //register bean classes
   db.registerBeanClass<Person>();
+
+#if TEST_OLD_DB
+  std::vector<std::string> tableNames = db.checkModel();
+  db.checkCreateModel();
+#else
   //drop all tables beans will use
   db.dropModel();
   //create those tables again with proper schema
   db.createModel();
+#endif
 
   const char* names[5]={"Stanley Marsh", "Kyle Broflovski", "Eric Theodore Cartman", "Kenneth McCormick", "Leopold Stotch"};
 
@@ -59,7 +67,7 @@ void printDB()
   cout << "found " << v.size() << " persons in the database:\n";
 
   for(size_t j=0;j<v.size();j++){
-    cout << "[name=" << v[j]->name << "\t";
+    cout << j << "[name=" << v[j]->name << "\t";
     cout << "age=" << v[j]->age << "\t";
     cout << "bio={";
     for(size_t i=0;i<v[j]->bio.size();i++)
@@ -70,14 +78,27 @@ void printDB()
 
 void modifyDB()
 {
+  cout << string( 15, '=' ) + "\nmodify the DB\n";
   hiberlite::Database db("sample.db");
   db.registerBeanClass<Person>();
 
   vector< hiberlite::bean_ptr<Person> > v=db.getAllBeans<Person>();
-  cout << v[0]->name << " will be deleted.\n";
-  v[0].destroy();
-  cout << v[1]->name << " becomes 1 year older.\n\n";
-  v[1]->age+=1;
+
+  if( v.size() > 0 ) {
+	  cout << v[0]->name << " will be deleted.\n";
+	  v[0].destroy();
+
+	  if( v[0] ) {
+		  cout << "error: v[0] should be null!";
+	  }
+  }
+
+  if( v.size() > 1 ) {
+	  cout << v[1]->name << " becomes 1 year older.\n\n";
+	  v[1]->age += 1;
+  }
+
+  vector< hiberlite::bean_ptr<Person> > v2 = db.getAllBeans<Person>();
 }
 
 int main()

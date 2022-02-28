@@ -45,8 +45,17 @@ void Database::close()
 
 std::vector<std::string> Database::checkModel()
 {
+	if( !mx )
+		throw std::logic_error( "register bean classes first" );
+
 	//TODO checkModel
 	std::vector<std::string> ans;
+	Model mdl = mx->getModel();
+	for( Model::iterator it = mdl.begin(); it != mdl.end(); it++ ) {
+		Table& t = it->second;
+		ans.push_back( t.name );
+	}
+
 	return ans;
 }
 
@@ -84,6 +93,31 @@ void Database::createModel()
 		}
 		query +=");";
 		dbExecQuery(query);
+	}
+}
+
+void Database::checkCreateModel()
+{
+	if( !mx )
+		throw std::logic_error( "register bean classes first" );
+	Model mdl = mx->getModel();
+	for( Model::iterator it = mdl.begin(); it != mdl.end(); it++ ) {
+		Table& t = it->second;
+		std::string query = "CREATE TABLE IF NOT EXISTS " + t.name + " (";
+		bool needComma = false;
+		for( std::map<std::string, Column>::iterator c = t.columns.begin(); c != t.columns.end(); c++ ) {
+			if( needComma )
+				query += ", ";
+			needComma = true;
+			Column& col = c->second;
+			query += col.name + " ";
+			if( col.name == HIBERLITE_PRIMARY_KEY_COLUMN )
+				query += "INTEGER PRIMARY KEY AUTOINCREMENT";
+			else
+				query += col.storage_type;
+		}
+		query += ");";
+		dbExecQuery( query );
 	}
 }
 

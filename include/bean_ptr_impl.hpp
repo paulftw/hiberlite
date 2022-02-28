@@ -91,7 +91,7 @@ bean_ptr<C>::bean_ptr()
 
 template<class C>
 bean_ptr<C>::operator bool() const {
-	return get_id()!=Database::NULL_ID;
+	return const_cast< bean_ptr<C>* >(this)->get_id()!=Database::NULL_ID;
 }
 
 template<class C> template<class Archive>
