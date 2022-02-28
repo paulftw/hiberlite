@@ -7,6 +7,8 @@
 #include <set>
 #include <list>
 
+#include <cinttypes>
+
 #include <stdexcept>
 #include <iostream>
 #include <algorithm>
