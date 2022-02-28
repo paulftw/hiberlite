@@ -6,7 +6,7 @@
 #include <algorithm>
 using namespace std;
 
-#define TEST_OLD_DB 1
+#define TEST_OLD_DB 0
 
 class Person{
   friend class hiberlite::access;
