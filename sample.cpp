@@ -1,4 +1,4 @@
-#include "hiberlite.h"
+﻿#include "hiberlite.h"
 
 #include <string>
 #include <vector>
@@ -13,14 +13,18 @@ class Person{
   template<class Archive>
   void hibernate(Archive & ar)
   {
-    ar & HIBERLITE_NVP(name);
+    ar & HIBERLITE_NVP( name );
+    ar & HIBERLITE_NVP( wname );
     ar & HIBERLITE_NVP(age);
-    ar & HIBERLITE_NVP(bio);
+    ar & HIBERLITE_NVP( bio );
+    ar & HIBERLITE_NVP( bio2 );
   }
 public:
   string name;
+  wstring wname;
   double age;
   vector<string> bio;
+  vector<wstring> bio2;
 };
 
 HIBERLITE_EXPORT_CLASS(Person)
@@ -46,10 +50,15 @@ void createDB()
   for(unsigned int i=0;i<5;i++) {
     Person x;
     x.name=names[i%5];
+	x.wname = hiberlite::utf8ToWstring( names[i % 5] );	
     x.age=14+i*0.1;
     x.bio.push_back("Hello");
     x.bio.push_back("world");
     x.bio.push_back("!");
+
+    x.bio2.push_back( L"wHello" );
+	 x.bio2.push_back( L"wworld" );
+	 x.bio2.push_back( L"!" );
 
     hiberlite::bean_ptr<Person> p=db.copyBean(x);	//create a managed copy of the object
   }
@@ -68,11 +77,17 @@ void printDB()
 
   for(size_t j=0;j<v.size();j++){
     cout << j << "[name=" << v[j]->name << "\t";
+	cout << "wname=" << hiberlite::wstringToUtf8(v[j]->wname) << "\t";
     cout << "age=" << v[j]->age << "\t";
     cout << "bio={";
     for(size_t i=0;i<v[j]->bio.size();i++)
       i && cout << ", ", cout << v[j]->bio[i];
-    cout << "}]\n";
+    cout << "}\t";
+
+	cout << "bio2={";
+	for( size_t i = 0; i < v[j]->bio2.size(); i++ )
+		i && cout << ", ", cout << hiberlite::wstringToUtf8( v[j]->bio2[i]);
+	cout << "}]\n";
   }
 }
 

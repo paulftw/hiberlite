@@ -1,4 +1,4 @@
-#ifndef HIBERDEFS_H_INCLUDED
+﻿#ifndef HIBERDEFS_H_INCLUDED
 #define HIBERDEFS_H_INCLUDED
 
 #if (defined _MSC_VER && _MSC_VER< 1600)

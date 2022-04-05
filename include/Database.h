@@ -1,4 +1,4 @@
-#ifndef DATABASE_H
+﻿#ifndef DATABASE_H
 #define DATABASE_H
 
 namespace hiberlite{

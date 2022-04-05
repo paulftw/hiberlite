@@ -1,4 +1,4 @@
-namespace hiberlite{
+﻿namespace hiberlite{
 
 template<class C>
 real_bean<C>::real_bean(const bean_key _key, C* _obj) : key(_key), obj(_obj), forgotten(false)
