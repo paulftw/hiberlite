@@ -14,10 +14,10 @@ class Person{
   void hibernate(Archive & ar)
   {
     ar & HIBERLITE_NVP( name );
-    ar & HIBERLITE_NVP( wname );
+    //ar & HIBERLITE_NVP( wname );
     ar & HIBERLITE_NVP(age);
     ar & HIBERLITE_NVP( bio );
-    ar & HIBERLITE_NVP( bio2 );
+    //ar & HIBERLITE_NVP( bio2 );
   }
 public:
   string name;
@@ -62,6 +62,52 @@ void createDB()
 
     hiberlite::bean_ptr<Person> p=db.copyBean(x);	//create a managed copy of the object
   }
+}
+
+/**数据量稍微一大，就慢的要命。
+https://blog.csdn.net/majiakun1/article/details/46607163
+加了外部使用事务的接口，能快一点
+*/
+void createDBmuch()
+{
+	hiberlite::Database db( "sample.db" );
+	//register bean classes
+	db.registerBeanClass<Person>();
+
+#if TEST_OLD_DB
+	std::vector<std::string> tableNames = db.checkModel();
+	db.checkCreateModel();
+#else
+	//drop all tables beans will use
+	db.dropModel();
+	//create those tables again with proper schema
+	db.createModel();
+#endif
+
+	const char* names[5] = { "Stanley Marsh", "Kyle Broflovski", "Eric Theodore Cartman", "Kenneth McCormick", "Leopold Stotch" };
+
+	db.beginTransaction(false);
+
+	for( int j = 0; j < 100; ++j ) {
+		for( unsigned int i = 0; i < 5; i++ ) {
+			Person x;
+			x.name = names[i % 5] ;
+			x.name += " " + std::to_string(j);
+			x.wname = hiberlite::utf8ToWstring( names[i % 5] );
+			x.age = 14 + i * 0.1;
+			x.bio.push_back( "Hello" );
+			x.bio.push_back( "world" );
+			x.bio.push_back( "!" );
+
+			x.bio2.push_back( L"wHello" );
+			x.bio2.push_back( L"wworld" );
+			x.bio2.push_back( L"!" );
+
+			hiberlite::bean_ptr<Person> p = db.copyBean( x );	//create a managed copy of the object
+		}
+	}
+	
+	db.endTransaction();
 }
 
 void printDB()
@@ -118,7 +164,8 @@ void modifyDB()
 
 int main()
 {
-  createDB();
+  //createDB();
+  createDBmuch();
   printDB();
   modifyDB();
   printDB();

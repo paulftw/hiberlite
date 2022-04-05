@@ -1,4 +1,4 @@
-#ifndef REGISTRY_H_INCLUDED
+﻿#ifndef REGISTRY_H_INCLUDED
 #define REGISTRY_H_INCLUDED
 
 namespace hiberlite{
@@ -32,10 +32,10 @@ class Registry{
 		static void notifyRBDies(rb_pair<C>* r);
 
 	public:
-		static bean_ptr<C> get(const bean_key key);
+		static bean_ptr<C> get( Database* pDb, const bean_key key);
 		static bool has(const bean_key key);
 
-		static bean_ptr<C> createBeanPtr(bean_key key, C* obj);
+		static bean_ptr<C> createBeanPtr( Database* pDb, bean_key key, C* obj);
 };
 
 template<class C>

@@ -1,4 +1,4 @@
-namespace hiberlite{
+﻿namespace hiberlite{
 
 template<class C>
 rb_pair<C>::~rb_pair()
@@ -18,12 +18,12 @@ bean_key rb_pair<C>::get_key()
 }
 
 template<class C>
-bean_ptr<C> Registry<C>::createBeanPtr(bean_key key, C* obj)
+bean_ptr<C> Registry<C>::createBeanPtr( Database* pDb, bean_key key, C* obj)
 {
 	if(key.id==Database::NULL_ID)
-		return bean_ptr<C>(key,NULL);
+		return bean_ptr<C>( pDb, key,NULL);
 
-	real_bean<C>* rb=new real_bean<C>(key,obj);
+	real_bean<C>* rb=new real_bean<C>( pDb, key,obj);
 	rb_pair<C>* para=new rb_pair<C>(rb);
 
 	if( rbpairs.find(key)!=rbpairs.end() )
@@ -31,19 +31,19 @@ bean_ptr<C> Registry<C>::createBeanPtr(bean_key key, C* obj)
 
 	rbpairs[key]=para;
 
-	bean_ptr<C> ans(key, para);
+	bean_ptr<C> ans( pDb, key, para);
 	return ans;
 }
 
 template<class C>
-bean_ptr<C> Registry<C>::get(const bean_key key)
+bean_ptr<C> Registry<C>::get( Database* pDb, const bean_key key)
 {
 	typename std::map<bean_key,rb_pair<C>* >::iterator it;
 	it=rbpairs.find(key);
 	if(it==rbpairs.end())
-		return createBeanPtr(key,NULL);
+		return createBeanPtr( pDb, key,NULL);
 	else
-		return bean_ptr<C>(key, it->second);
+		return bean_ptr<C>( pDb, key, it->second);
 }
 
 template<class C>

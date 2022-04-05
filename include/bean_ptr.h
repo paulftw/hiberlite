@@ -1,4 +1,4 @@
-#ifndef BEAN_PTR_H_INCLUDED
+﻿#ifndef BEAN_PTR_H_INCLUDED
 #define BEAN_PTR_H_INCLUDED
 
 namespace hiberlite{
@@ -27,16 +27,22 @@ class real_bean : noncopyable {
 		void destroy();
 		bool destroyed() const { return forgotten; }
 
+		Database* database() const {
+			return m_pDb;
+		}
+
+
 	protected:
 		inline void loadLazy();
 
+		Database* m_pDb = nullptr;
 		bean_key key;
 		C* obj;
 		bool forgotten;
 
 	private:
 		friend class Registry<C>;
-		real_bean(const bean_key _key, C* _obj); //only Registry can create the real_bean
+		real_bean( Database* pDb, const bean_key _key, C* _obj); //only Registry can create the real_bean
 };
 
 template<class C>
@@ -47,12 +53,12 @@ class bean_ptr : public shared_res< real_bean<C> >
 	void hibernate(Archive & ar);
 
 	friend class Registry<C>;
-	bean_ptr(bean_key k, rb_pair<C>* rbpair);
+	bean_ptr( Database* pDb, bean_key k, rb_pair<C>* rbpair);
 
 	sqlid_t tmp_id;
 
 	public:
-		bean_ptr(bean_key k);
+		bean_ptr( Database* pDb, bean_key k);
 
 		bean_ptr();
 
