@@ -17,6 +17,12 @@
 
 namespace hiberlite{
 
+enum ESavePolicy {
+	ESavePolicy_Default,
+	ESavePolicy_ExitSave = ESavePolicy_Default,
+	ESavePolicy_ExitNoSave,
+};
+
 class noncopyable
 {
   protected:

@@ -8,7 +8,8 @@ real_bean<C>::real_bean( Database* pDb, const bean_key _key, C* _obj)
 template<class C>
 real_bean<C>::~real_bean()
 {
-	save();
+	if( getSavePolicy() == ESavePolicy_ExitSave )
+		save();
 	delete obj;
 }
 

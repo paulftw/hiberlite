@@ -105,13 +105,13 @@ class Database : noncopyable
 		inline DatabaseTransaction transactionGuard( bool bRollback = true );
 
 		template<class C>
-		bean_ptr<C> loadBean(sqlid_t objId);
+		bean_ptr<C> loadBean(sqlid_t objId, ESavePolicy save = ESavePolicy_Default);
 
 		template<class C>
-		std::vector<sqlid_t> getBeanIds();
+		std::vector<sqlid_t> getBeanIds( );
 
 		template<class C>
-		std::vector< bean_ptr<C> > getAllBeans();
+		std::vector< bean_ptr<C> > getAllBeans( ESavePolicy save = ESavePolicy_Default );
 
 		template<class C>
 		bean_ptr<C> copyBean(const C& c);

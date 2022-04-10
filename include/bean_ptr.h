@@ -22,6 +22,10 @@ class real_bean : noncopyable {
 
 		bean_key get_key() const { return key; }
 
+		inline ESavePolicy getSavePolicy() const {
+			return m_eSavePolicy;
+		}
+		inline void setSavePolicy( ESavePolicy save ) { m_eSavePolicy = save; }
 		void save();
 
 		void destroy();
@@ -39,7 +43,7 @@ class real_bean : noncopyable {
 		bean_key key;
 		C* obj;
 		bool forgotten;
-
+		ESavePolicy m_eSavePolicy = ESavePolicy_Default;
 	private:
 		friend class Registry<C>;
 		real_bean( Database* pDb, const bean_key _key, C* _obj); //only Registry can create the real_bean
@@ -67,6 +71,12 @@ class bean_ptr : public shared_res< real_bean<C> >
 		bean_ptr(const bean_ptr<C>& other);
 		bean_ptr<C>& operator=(const bean_ptr<C>& other);
 
+		inline ESavePolicy getSavePolicy() const {
+			return shared_res< real_bean<C> >::get_object()->getSavePolicy();
+		}
+		inline void setSavePolicy( ESavePolicy save ) { 
+			return shared_res< real_bean<C> >::get_object()->setSavePolicy( save ); 
+		}
 		void save();
 		void destroy();
 

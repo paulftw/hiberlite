@@ -184,9 +184,9 @@ inline bean_ptr<C> Database::manageBean(C* ptr)
 }
 
 template<class C>
-inline bean_ptr<C> Database::loadBean(sqlid_t id)
+inline bean_ptr<C> Database::loadBean(sqlid_t id, ESavePolicy save )
 {
-	return Registry<C>::get( this, bean_key(con,id) );
+	return Registry<C>::get( this, bean_key(con,id), save );
 }
 
 template<class C>
@@ -196,14 +196,14 @@ std::vector<sqlid_t> Database::getBeanIds()
 }
 
 template<class C>
-std::vector< bean_ptr<C> > Database::getAllBeans()
+std::vector< bean_ptr<C> > Database::getAllBeans( ESavePolicy save )
 {
 	std::vector<sqlid_t> ids=getBeanIds<C>();
 	size_t N=ids.size();
 	std::vector< bean_ptr<C> > ans;
 	ans.reserve(N);
 	for(size_t i=0;i<N;i++)
-		ans.push_back( loadBean<C>(ids[i]) );
+		ans.push_back( loadBean<C>(ids[i], save) );
 	return ans;
 }
 

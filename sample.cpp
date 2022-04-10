@@ -141,7 +141,7 @@ void printDB()
   auto t = db.transactionGuard();
   cout << string(15,'=')+"\nreading the DB\n";
 
-  vector< hiberlite::bean_ptr<Person> > v=db.getAllBeans<Person>();
+  vector< hiberlite::bean_ptr<Person> > v=db.getAllBeans<Person>( hiberlite::ESavePolicy_ExitNoSave );
 
   cout << "found " << v.size() << " persons in the database:\n";
 
@@ -206,12 +206,20 @@ void modifyDBMuch()
 		i->age += 1;
 	}
 
-	cout << "every record will be deleted.\n\n";
-	for( auto i : v ) {
-		i.destroy();
-	}
+	if( v.size() > 0 ) {
+		cout << v[0]->name << " will be deleted.\n";
+		v[0].destroy();
 
-	vector< hiberlite::bean_ptr<Person> > v2 = db.getAllBeans<Person>();
+		if( v[0] ) {
+			cout << "error: v[0] should be null!";
+		}
+	}
+	//cout << "every record will be deleted.\n\n";
+	//for( auto i : v ) {
+	//	i.destroy();
+	//}
+
+	vector< hiberlite::bean_ptr<Person> > v2 = db.getAllBeans<Person>( hiberlite::ESavePolicy_ExitNoSave );
 }
 
 int main()
@@ -222,7 +230,7 @@ int main()
   modifyDBMuch();
   //modifyDB();
   printDB();
-  modifyDB();
-  printDB();
+  //modifyDB();
+  //printDB();
   return 0;
 }

@@ -32,10 +32,10 @@ class Registry{
 		static void notifyRBDies(rb_pair<C>* r);
 
 	public:
-		static bean_ptr<C> get( Database* pDb, const bean_key key);
+		static bean_ptr<C> get( Database* pDb, const bean_key key, ESavePolicy save = ESavePolicy_Default );
 		static bool has(const bean_key key);
 
-		static bean_ptr<C> createBeanPtr( Database* pDb, bean_key key, C* obj);
+		static bean_ptr<C> createBeanPtr( Database* pDb, bean_key key, C* obj, ESavePolicy save = ESavePolicy_Default );
 };
 
 template<class C>
