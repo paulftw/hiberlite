@@ -7,9 +7,9 @@ Database::Database() : mx(NULL)
 {
 }
 
-Database::Database(std::string fname) : mx(NULL)
+Database::Database(std::string fname, EDBSynchronous sync) : mx(NULL)
 {
-	open(fname);
+	open(fname, sync );
 }
 
 Database::~Database()
@@ -17,7 +17,7 @@ Database::~Database()
 	close();
 }
 
-void Database::open(std::string fname)
+void Database::open(std::string fname, EDBSynchronous sync )
 {
 	sqlite3* db=NULL;
 
@@ -27,6 +27,22 @@ void Database::open(std::string fname)
 		if(rc!=SQLITE_OK)
 			throw database_error( std::string("database error: ")+sqlite3_errmsg(db) );
 		con=shared_connection(new autoclosed_con(db));
+
+		switch( sync )
+		{
+		case hiberlite::EDBSynchronous_Default:
+			break;
+		case hiberlite::EDBSynchronous_Full:			sqlite3_exec( db, "PRAGMA synchronous = full; ", 0, 0, 0 );
+			break;
+		case hiberlite::EDBSynchronous_Normal:
+			sqlite3_exec( db, "PRAGMA synchronous = normal; ", 0, 0, 0 );
+			break;
+		case hiberlite::EDBSynchronous_Off:
+			sqlite3_exec( db, "PRAGMA synchronous = OFF; ", 0, 0, 0 );
+			break;
+		default:
+			break;
+		}
 
 	}catch(std::runtime_error e){
 		if(db)

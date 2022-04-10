@@ -3,68 +3,70 @@
 
 namespace hiberlite{
 
-	namespace detail {
-		inline DatabaseTransaction::DatabaseTransaction()
-			: m_bValid( false )
-		{
+	inline DatabaseTransaction::DatabaseTransaction()
+		: m_pDb( nullptr )
+	{
+	}
+	inline DatabaseTransaction::DatabaseTransaction( Database* pDb, bool bRollback )
+		: m_pDb(pDb) {
+		if( m_pDb ) {
+			m_pDb->beginTransaction( bRollback );
+		}			
+	}
+	inline DatabaseTransaction::~DatabaseTransaction() {
+		if( m_pDb ) {
+			m_pDb->endTransaction( );
+			m_pDb = nullptr;
 		}
-		inline DatabaseTransaction::DatabaseTransaction( shared_connection connection, bool bRollback )
-			: m_bValid(true)
-			, m_connection( connection ) {
+	}
+	inline DatabaseTransaction::DatabaseTransaction( DatabaseTransaction& o ) {
+		m_pDb = o.m_pDb;
+		const_cast< DatabaseTransaction& >( o ).m_pDb = nullptr;
+	}
+	inline DatabaseTransaction& DatabaseTransaction::operator=( DatabaseTransaction& o ) {
+		m_pDb = o.m_pDb;
+		const_cast< DatabaseTransaction& >(o).m_pDb = nullptr;
+		return *this;
+	}
+
+	bool DatabaseTransaction::isValid() const {
+		return m_pDb != nullptr;
+	}
+
+	inline void Database::beginTransaction( bool bRollback ){
+		++m_nOutTransactionNum;
+		if( m_nOutTransactionNum == 1 ) {
 			if( bRollback ) {
 				try {
-					Database::dbExecQuery( connection, "ROLLBACK TRANSACTION;" );
+					Database::dbExecQuery( this->con, "ROLLBACK TRANSACTION;" );
 				}
 				catch( ... ) {}
 			}
-			Database::dbExecQuery( connection, "BEGIN TRANSACTION;" );
-		}
-		inline DatabaseTransaction::~DatabaseTransaction() {
-			if( m_bValid ) {
-				Database::dbExecQuery( m_connection, "COMMIT TRANSACTION;" );
-				m_bValid = false;
-			}
-		}
-		inline DatabaseTransaction::DatabaseTransaction( const DatabaseTransaction& o ) {
-			m_connection = o.m_connection;
-			m_bValid = o.m_bValid;
-			const_cast< DatabaseTransaction& >( o ).m_bValid = false;
-		}
-		inline DatabaseTransaction& DatabaseTransaction::operator=( const DatabaseTransaction& o ) {
-			m_connection = o.m_connection;
-			m_bValid = o.m_bValid;
-			const_cast< DatabaseTransaction& >(o).m_bValid = false;
-			return *this;
+			Database::dbExecQuery( this->con, "BEGIN TRANSACTION;" );
 		}
 	}
 
-	inline bool Database::beginTransaction( bool bRollback ) {
-		if( m_transaction.m_bValid ) {
-			return false;
-		}
-		else {
-			m_transaction = detail::DatabaseTransaction( con, bRollback );
+	inline bool Database::shouldInsideUseTransaction() const{
+		if( m_nOutTransactionNum <= 0 ) {
 			return true;
 		}
-	}
-
-	inline bool Database::shouldInsideUseTransaction() const {
-		if( m_transaction.m_bValid ) {
-			return false;
-		}
-		else {
-			return true;
-		}
-	}
-
-	inline bool Database::endTransaction() {
-		if( m_transaction.m_bValid ) {
-			m_transaction.~DatabaseTransaction();
-			return true ;
-		}
 		else {
 			return false;
 		}
+	}
+
+	inline void Database::endTransaction() {
+		--m_nOutTransactionNum;
+		if( m_nOutTransactionNum == 0 ) {
+			Database::dbExecQuery( this->con, "COMMIT TRANSACTION;" );
+		}
+
+		if( m_nOutTransactionNum < 0 )
+			m_nOutTransactionNum = 0;
+	}
+
+	inline DatabaseTransaction Database::transactionGuard( bool bRollback ) {
+		return DatabaseTransaction(this, bRollback );
 	}
 
 template<class C>
@@ -113,7 +115,7 @@ template<class C>
 void Database::dbUpdate(bean_key key, C& bean, bool bUseTransaction )
 {
 	if( bUseTransaction ) {
-		try {
+		try { /** 这里是不是不对，应该执行事务后失败后才回滚吧*/
 			dbExecQuery( key.con, "ROLLBACK TRANSACTION;" );
 		}
 		catch( ... ) {}
@@ -163,12 +165,21 @@ bean_ptr<C> Database::copyBean(const C& c)
 	return manageBean<C>( new C(c) );
 }
 
+
+template<class C>
+void Database::copyBeanToDB( const C& c )
+{
+	sqlid_t id = allocId( Database::getClassName<C>() );
+	bean_key key( con, id );
+	dbUpdate( key, const_cast< C& >(c), shouldInsideUseTransaction() );
+}
+
 template<class C>
 inline bean_ptr<C> Database::manageBean(C* ptr)
 {
 	sqlid_t id=allocId( Database::getClassName<C>() );
 	bean_key key(con,id);
-	dbUpdate(key,*ptr, !m_transaction.m_bValid);
+	dbUpdate(key,*ptr, shouldInsideUseTransaction() );
 	return Registry<C>::createBeanPtr(this, key,ptr);
 }
 

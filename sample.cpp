@@ -8,18 +8,38 @@ using namespace std;
 
 #define TEST_OLD_DB 0
 
+class Id {
+	friend class hiberlite::access;
+
+	template<class Archive>	
+	void hibernate( Archive & ar )
+	{
+		ar & HIBERLITE_NVP( m_id );
+		//ar & HIBERLITE_NVP( bio2 );
+	}
+public:
+	string m_id;
+};
+
+HIBERLITE_EXPORT_CLASS( Id )
+
 class Person{
   friend class hiberlite::access;
   template<class Archive>
   void hibernate(Archive & ar)
   {
+	  ar & HIBERLITE_NVP( id );
     ar & HIBERLITE_NVP( name );
-    //ar & HIBERLITE_NVP( wname );
+    ar & HIBERLITE_NVP( wname );
     ar & HIBERLITE_NVP(age);
     ar & HIBERLITE_NVP( bio );
     //ar & HIBERLITE_NVP( bio2 );
   }
 public:
+	Person() {}
+	~Person() {}
+
+	Id id;
   string name;
   wstring wname;
   double age;
@@ -68,9 +88,9 @@ void createDB()
 https://blog.csdn.net/majiakun1/article/details/46607163
 加了外部使用事务的接口，能快一点
 */
-void createDBmuch()
+void createDBMuch()
 {
-	hiberlite::Database db( "sample.db" );
+	hiberlite::Database db( "sample.db", hiberlite::EDBSynchronous_Normal );
 	//register bean classes
 	db.registerBeanClass<Person>();
 
@@ -86,13 +106,15 @@ void createDBmuch()
 
 	const char* names[5] = { "Stanley Marsh", "Kyle Broflovski", "Eric Theodore Cartman", "Kenneth McCormick", "Leopold Stotch" };
 
+	auto t = db.transactionGuard();
 	db.beginTransaction(false);
 
-	for( int j = 0; j < 100; ++j ) {
+	for( int j = 0; j < 500; ++j ) {
 		for( unsigned int i = 0; i < 5; i++ ) {
 			Person x;
 			x.name = names[i % 5] ;
-			x.name += " " + std::to_string(j);
+			x.name += " " + std::to_string( j );
+			x.id.m_id = x.name;
 			x.wname = hiberlite::utf8ToWstring( names[i % 5] );
 			x.age = 14 + i * 0.1;
 			x.bio.push_back( "Hello" );
@@ -103,7 +125,8 @@ void createDBmuch()
 			x.bio2.push_back( L"wworld" );
 			x.bio2.push_back( L"!" );
 
-			hiberlite::bean_ptr<Person> p = db.copyBean( x );	//create a managed copy of the object
+			db.copyBeanToDB( x );
+			//hiberlite::bean_ptr<Person> p = db.copyBean( x );	//create a managed copy of the object
 		}
 	}
 	
@@ -112,9 +135,10 @@ void createDBmuch()
 
 void printDB()
 {
-  hiberlite::Database db("sample.db");
+  hiberlite::Database db("sample.db", hiberlite::EDBSynchronous_Normal );
   db.registerBeanClass<Person>();
 
+  auto t = db.transactionGuard();
   cout << string(15,'=')+"\nreading the DB\n";
 
   vector< hiberlite::bean_ptr<Person> > v=db.getAllBeans<Person>();
@@ -162,12 +186,41 @@ void modifyDB()
   vector< hiberlite::bean_ptr<Person> > v2 = db.getAllBeans<Person>();
 }
 
+
+void modifyDBMuch()
+{
+	cout << string( 15, '=' ) + "\nmodify the DB\n";
+	hiberlite::Database db( "sample.db", hiberlite::EDBSynchronous_Normal );
+	db.registerBeanClass<Person>();
+
+	auto t = db.transactionGuard();
+	vector< hiberlite::bean_ptr<Person> > v = db.getAllBeans<Person>();
+
+	cout << "every record becomes 1 year older.\n\n";
+	for( auto i: v ) {
+		i->age += 1;
+	}
+
+	cout << "every record becomes 1 year older.\n\n";
+	for( auto i : v ) {
+		i->age += 1;
+	}
+
+	cout << "every record will be deleted.\n\n";
+	for( auto i : v ) {
+		i.destroy();
+	}
+
+	vector< hiberlite::bean_ptr<Person> > v2 = db.getAllBeans<Person>();
+}
+
 int main()
 {
   //createDB();
-  createDBmuch();
+  createDBMuch();
   printDB();
-  modifyDB();
+  modifyDBMuch();
+  //modifyDB();
   printDB();
   modifyDB();
   printDB();
