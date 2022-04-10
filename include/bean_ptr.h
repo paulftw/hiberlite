@@ -1,4 +1,4 @@
-#ifndef BEAN_PTR_H_INCLUDED
+﻿#ifndef BEAN_PTR_H_INCLUDED
 #define BEAN_PTR_H_INCLUDED
 
 namespace hiberlite{
@@ -22,21 +22,31 @@ class real_bean : noncopyable {
 
 		bean_key get_key() const { return key; }
 
+		inline ESavePolicy getSavePolicy() const {
+			return m_eSavePolicy;
+		}
+		inline void setSavePolicy( ESavePolicy save ) { m_eSavePolicy = save; }
 		void save();
 
 		void destroy();
 		bool destroyed() const { return forgotten; }
 
+		Database* database() const {
+			return m_pDb;
+		}
+
+
 	protected:
 		inline void loadLazy();
 
+		Database* m_pDb = nullptr;
 		bean_key key;
 		C* obj;
 		bool forgotten;
-
+		ESavePolicy m_eSavePolicy = ESavePolicy_Default;
 	private:
 		friend class Registry<C>;
-		real_bean(const bean_key _key, C* _obj); //only Registry can create the real_bean
+		real_bean( Database* pDb, const bean_key _key, C* _obj); //only Registry can create the real_bean
 };
 
 template<class C>
@@ -47,12 +57,12 @@ class bean_ptr : public shared_res< real_bean<C> >
 	void hibernate(Archive & ar);
 
 	friend class Registry<C>;
-	bean_ptr(bean_key k, rb_pair<C>* rbpair);
+	bean_ptr( Database* pDb, bean_key k, rb_pair<C>* rbpair);
 
 	sqlid_t tmp_id;
 
 	public:
-		bean_ptr(bean_key k);
+		bean_ptr( Database* pDb, bean_key k);
 
 		bean_ptr();
 
@@ -61,6 +71,12 @@ class bean_ptr : public shared_res< real_bean<C> >
 		bean_ptr(const bean_ptr<C>& other);
 		bean_ptr<C>& operator=(const bean_ptr<C>& other);
 
+		inline ESavePolicy getSavePolicy() const {
+			return shared_res< real_bean<C> >::get_object()->getSavePolicy();
+		}
+		inline void setSavePolicy( ESavePolicy save ) { 
+			return shared_res< real_bean<C> >::get_object()->setSavePolicy( save ); 
+		}
 		void save();
 		void destroy();
 

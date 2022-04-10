@@ -1,13 +1,15 @@
-namespace hiberlite{
+﻿namespace hiberlite{
 
 template<class C>
-real_bean<C>::real_bean(const bean_key _key, C* _obj) : key(_key), obj(_obj), forgotten(false)
+real_bean<C>::real_bean( Database* pDb, const bean_key _key, C* _obj) 
+	: key(_key), m_pDb( pDb ), obj(_obj), forgotten(false)
 {}
 
 template<class C>
 real_bean<C>::~real_bean()
 {
-	save();
+	if( getSavePolicy() == ESavePolicy_ExitSave )
+		save();
 	delete obj;
 }
 
@@ -15,7 +17,7 @@ template<class C>
 void real_bean<C>::destroy() {
 	if(forgotten)
 		return;
-	Database::dbDelete(key, *obj);
+	Database::dbDelete(  key, *obj, m_pDb->shouldInsideUseTransaction() );
 	delete obj;
 	forgotten=true;
 	obj=NULL;
@@ -28,7 +30,7 @@ void real_bean<C>::save() {
 		return;
 	if(!obj)
 		return;
-	Database::dbUpdate(key, *obj);
+	Database::dbUpdate( key, *obj, m_pDb->shouldInsideUseTransaction() );
 }
 
 template<class C>
@@ -61,7 +63,7 @@ inline void real_bean<C>::loadLazy()
 }
 
 template<class C>
-bean_ptr<C>::bean_ptr(bean_key k, rb_pair<C>* para)
+bean_ptr<C>::bean_ptr( Database* pDb, bean_key k, rb_pair<C>* para)
 {
 	this->takeRes(para);
 }
@@ -79,9 +81,10 @@ bean_ptr<C>& bean_ptr<C>::operator=(const bean_ptr<C>& other)
 }
 
 template<class C>
-bean_ptr<C>::bean_ptr(bean_key k)
+bean_ptr<C>::bean_ptr( Database* pDb, bean_key k)
 {
-	*this=Registry<C>::get(k);
+	m_pDb = pDb;
+	*this=Registry<C>::get( pDb, k);
 }
 
 template<class C>
@@ -91,7 +94,7 @@ bean_ptr<C>::bean_ptr()
 
 template<class C>
 bean_ptr<C>::operator bool() const {
-	return get_id()!=Database::NULL_ID;
+	return const_cast< bean_ptr<C>* >(this)->get_id()!=Database::NULL_ID;
 }
 
 template<class C> template<class Archive>
@@ -105,7 +108,7 @@ void bean_ptr<C>::hibernate(Archive & ar)
 
 	ar & hiberlite::sql_nvp< sqlid_t > ("id", tmp_id );
 	if(ar.is_loading())
-		*this=Registry<C>::get( bean_key(ar.getConnection(), tmp_id) );
+		*this=Registry<C>::get( res->getRes()->database(), bean_key(ar.getConnection(), tmp_id) );
 }
 
 template<class C>

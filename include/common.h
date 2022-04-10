@@ -1,4 +1,4 @@
-#ifndef COMMON_H_
+﻿#ifndef COMMON_H_
 #define COMMON_H_
 
 #include <string>
@@ -7,6 +7,8 @@
 #include <set>
 #include <list>
 
+#include <cinttypes>
+
 #include <stdexcept>
 #include <iostream>
 #include <algorithm>
@@ -14,6 +16,12 @@
 #include <sqlite3.h>
 
 namespace hiberlite{
+
+enum ESavePolicy {
+	ESavePolicy_Default,
+	ESavePolicy_ExitSave = ESavePolicy_Default,
+	ESavePolicy_ExitNoSave,
+};
 
 class noncopyable
 {

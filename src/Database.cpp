@@ -1,4 +1,4 @@
-
+﻿
 #include "hiberlite.h"
 
 namespace hiberlite{
@@ -7,9 +7,9 @@ Database::Database() : mx(NULL)
 {
 }
 
-Database::Database(std::string fname) : mx(NULL)
+Database::Database(std::string fname, EDBSynchronous sync) : mx(NULL)
 {
-	open(fname);
+	open(fname, sync );
 }
 
 Database::~Database()
@@ -17,7 +17,7 @@ Database::~Database()
 	close();
 }
 
-void Database::open(std::string fname)
+void Database::open(std::string fname, EDBSynchronous sync )
 {
 	sqlite3* db=NULL;
 
@@ -27,6 +27,22 @@ void Database::open(std::string fname)
 		if(rc!=SQLITE_OK)
 			throw database_error( std::string("database error: ")+sqlite3_errmsg(db) );
 		con=shared_connection(new autoclosed_con(db));
+
+		switch( sync )
+		{
+		case hiberlite::EDBSynchronous_Default:
+			break;
+		case hiberlite::EDBSynchronous_Full:			sqlite3_exec( db, "PRAGMA synchronous = full; ", 0, 0, 0 );
+			break;
+		case hiberlite::EDBSynchronous_Normal:
+			sqlite3_exec( db, "PRAGMA synchronous = normal; ", 0, 0, 0 );
+			break;
+		case hiberlite::EDBSynchronous_Off:
+			sqlite3_exec( db, "PRAGMA synchronous = OFF; ", 0, 0, 0 );
+			break;
+		default:
+			break;
+		}
 
 	}catch(std::runtime_error e){
 		if(db)
@@ -45,8 +61,17 @@ void Database::close()
 
 std::vector<std::string> Database::checkModel()
 {
+	if( !mx )
+		throw std::logic_error( "register bean classes first" );
+
 	//TODO checkModel
 	std::vector<std::string> ans;
+	Model mdl = mx->getModel();
+	for( Model::iterator it = mdl.begin(); it != mdl.end(); it++ ) {
+		Table& t = it->second;
+		ans.push_back( t.name );
+	}
+
 	return ans;
 }
 
@@ -84,6 +109,31 @@ void Database::createModel()
 		}
 		query +=");";
 		dbExecQuery(query);
+	}
+}
+
+void Database::checkCreateModel()
+{
+	if( !mx )
+		throw std::logic_error( "register bean classes first" );
+	Model mdl = mx->getModel();
+	for( Model::iterator it = mdl.begin(); it != mdl.end(); it++ ) {
+		Table& t = it->second;
+		std::string query = "CREATE TABLE IF NOT EXISTS " + t.name + " (";
+		bool needComma = false;
+		for( std::map<std::string, Column>::iterator c = t.columns.begin(); c != t.columns.end(); c++ ) {
+			if( needComma )
+				query += ", ";
+			needComma = true;
+			Column& col = c->second;
+			query += col.name + " ";
+			if( col.name == HIBERLITE_PRIMARY_KEY_COLUMN )
+				query += "INTEGER PRIMARY KEY AUTOINCREMENT";
+			else
+				query += col.storage_type;
+		}
+		query += ");";
+		dbExecQuery( query );
 	}
 }
 

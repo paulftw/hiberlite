@@ -1,7 +1,23 @@
-#ifndef SOM_TYPES_H_INCLUDED
+﻿#ifndef SOM_TYPES_H_INCLUDED
 #define SOM_TYPES_H_INCLUDED
 
+
+#include <locale>
+#include <codecvt>
+
 namespace hiberlite{
+
+	inline std::string wstringToUtf8( const std::wstring& str )
+	{
+		std::wstring_convert<std::codecvt_utf8<wchar_t> > strCnv;
+		return strCnv.to_bytes( str );
+	}
+
+	inline std::wstring utf8ToWstring( const std::string& str )
+	{
+		std::wstring_convert< std::codecvt_utf8<wchar_t> > strCnv;
+		return strCnv.from_bytes( str );
+	}
 
 template<class E, class C>
 class stl_stream_adapter{
@@ -152,6 +168,29 @@ inline std::string db_atom<std::string>::sqliteStorageClass() {
 template<>
 inline void db_atom<std::string>::bindValue(sqlite3_stmt* stmt, int col) {
 	sqlite3_bind_text(stmt, col, val.c_str(), -1, SQLITE_TRANSIENT);
+}
+
+
+// std::wstring -> TEXT type
+
+template<class A>
+void hibernate( A& ar, std::wstring& value, const unsigned int ) {
+	ar & db_atom<std::wstring>( value );
+}
+
+template<> template<class Stmt, class Arg>
+void db_atom<std::wstring>::loadValue( Stmt& res, Arg& arg ) {
+	val = utf8ToWstring( std::string( ( const char* )(res.get_text( arg )) ) );
+}
+
+template<>
+inline std::string db_atom<std::wstring>::sqliteStorageClass() {
+	return "TEXT";
+}
+
+template<>
+inline void db_atom<std::wstring>::bindValue( sqlite3_stmt* stmt, int col ) {
+	sqlite3_bind_text( stmt, col, wstringToUtf8(val).c_str(), -1, SQLITE_TRANSIENT );
 }
 
 // std::vector<uint8_t> -> BLOB type
